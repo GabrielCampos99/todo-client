@@ -1,5 +1,9 @@
-/* Slider */
-.slick-slider {
+import styled from "styled-components"
+
+export const Wrapper = styled.div`
+padding: .5rem;
+  /* Slider */
+  .slick-slider {
     position: relative;
 
     display: block;
@@ -15,9 +19,9 @@
     -ms-touch-action: pan-y;
     touch-action: pan-y;
     -webkit-tap-highlight-color: transparent;
-}
+  }
 
-.slick-list {
+  .slick-list {
     position: relative;
 
     display: block;
@@ -25,98 +29,106 @@
 
     margin: 0;
     padding: 0;
-}
+  }
 
-.slick-list:focus {
+  .slick-list:focus {
     outline: none;
-}
+  }
 
-.slick-list.dragging {
+  .slick-list.dragging {
     cursor: pointer;
     cursor: hand;
-}
+  }
 
-.slick-slider .slick-track,
-.slick-slider .slick-list {
+  .slick-slider .slick-track,
+  .slick-slider .slick-list {
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
     -ms-transform: translate3d(0, 0, 0);
     -o-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
-}
+  }
 
-.slick-track {
+  .slick-track {
     position: relative;
     top: 0;
     left: 0;
 
     display: block;
-}
+  }
 
-.slick-track:before,
-.slick-track:after {
+  .slick-track:before,
+  .slick-track:after {
     display: table;
 
-    content: '';
-}
+    content: "";
+  }
 
-.slick-track:after {
+  .slick-track:after {
     clear: both;
-}
+  }
 
-.slick-loading .slick-track {
+  .slick-loading .slick-track {
     visibility: hidden;
-}
+  }
 
-.slick-slide {
+  .slick-slide {
     display: none;
     float: left;
 
     height: 100%;
     min-height: 1px;
-}
+  }
 
-[dir='rtl'] .slick-slide {
+  [dir="rtl"] .slick-slide {
     float: right;
-}
+  }
 
-.slick-slide img {
+  .slick-slide img {
     display: block;
-}
+  }
 
-.slick-slide.slick-loading img {
+  .slick-slide.slick-loading img {
     display: none;
-}
+  }
 
-.slick-slide.dragging img {
+  .slick-slide.dragging img {
     pointer-events: none;
-}
+  }
 
-.slick-initialized .slick-slide {
+  .slick-initialized .slick-slide {
     display: block;
-}
+  }
 
-.slick-loading .slick-slide {
+  .slick-loading .slick-slide {
     visibility: hidden;
-}
+  }
 
-.slick-vertical .slick-slide {
+  .slick-vertical .slick-slide {
     display: block;
 
     height: auto;
 
     border: 1px solid transparent;
-}
+  }
 
-.slick-arrow.slick-hidden {
+  .slick-arrow.slick-hidden {
     display: none;
-}
+  }
 
-.sliderChildren {
+  .sliderChildren {
     background-color: gray;
     width: 80%;
     padding: 10rem 0;
     border: 0.1rem solid red;
     color: white;
     text-align: center;
-}
+  }
+`
+
+export const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin-top: 4rem;
+`

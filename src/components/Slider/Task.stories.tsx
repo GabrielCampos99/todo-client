@@ -22,6 +22,5 @@ const settings: SliderSettings = {
 export const Horizontal = () => (
   <SliderSlick settings={settings}>
     <SliderItem image={<Image1 />} title="titulo1" subtitle="subtitulo" />
-    <SliderItem image={<Image1 />} title="titulo" subtitle="subtitulo" />
   </SliderSlick>
 )
