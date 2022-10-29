@@ -1,12 +1,19 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import App from "./App"
 import "./index.scss"
 import GlobalStyles from "./styles/global"
-
+import { routesPath } from "./constants/routes"
+import { SignIn } from "./pages/SignIn/SignIn"
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <GlobalStyles />
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path={routesPath.home} element={<App />} />
+        <Route path={routesPath.singIn} element={<SignIn/>} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 )

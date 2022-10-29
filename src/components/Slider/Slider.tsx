@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import Slider from "react-slick"
 import SlickSlider, { Settings } from "react-slick"
+import { routesPath } from "../../constants/routes"
 import { Button } from "../Button/Button"
 import * as S from "./styles"
 
@@ -13,6 +15,7 @@ export type SliderProps = {
 }
 
 export const SliderSlick = ({ children, settings, index }: SliderProps) => {
+  const navigate = useNavigate()
   const sliderRef = useRef<Slider | null>(null)
 
   const gotoNext = () => {
@@ -21,6 +24,11 @@ export const SliderSlick = ({ children, settings, index }: SliderProps) => {
 
   const gotoPrev = () => {
     sliderRef.current?.slickPrev()
+  }
+
+  const signUp = () => {
+    console.log('cliquei aqui')
+    navigate(`${routesPath.singIn}`)
   }
 
   
@@ -42,7 +50,7 @@ export const SliderSlick = ({ children, settings, index }: SliderProps) => {
         )}
 
         {index.activeSlide2 === 2 ? (
-          <Button styledType="submit" >
+          <Button styledType="submit" onClick={signUp}>
             Começar
           </Button>
         ) : (
