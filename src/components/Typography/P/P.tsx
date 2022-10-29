@@ -1,9 +1,9 @@
 import { HTMLAttributes } from "react"
 
 type PProps = {
-  content: string
+  children?: string
 } & HTMLAttributes<HTMLHeadingElement>
 
-export const P = ({ content }: PProps) => {
-  return <div>{content}</div>
+export const P = ({ children }: PProps) => {
+  return <div>{children}</div>
 }

@@ -1,0 +1,9 @@
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    h1, p {
+        margin-top: 2rem;
+    }
+}

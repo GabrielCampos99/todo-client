@@ -1,34 +1,27 @@
-import React from 'react';
-import { action } from '@storybook/addon-actions';
-import { Slider, SliderSettings } from './Slider';
+import React from "react"
+import { action } from "@storybook/addon-actions"
+import { SliderSlick, SliderSettings } from "./Slider"
 import './styles.scss'
-
+import { SliderItem } from "../SliderItem/SliderItem"
+import { Image1 } from "../svg/Image1/Image1"
 
 export default {
-  component: Slider,
-  title: 'Slider/Slider',
+  component: SliderSlick,
+  title: "Slider/Slider",
   // Our exports that end in "Data" are not stories.
   excludeStories: /.*Data$/,
-};
+}
 
 const settings: SliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  };
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: false,
+}
 
-
-
-export const Horizontal = () => <Slider settings={settings}>
-    <div className='sliderChildren'>1</div>
-    <div className='sliderChildren'>2</div>
-    <div className='sliderChildren'>3</div>
-    <div className='sliderChildren'>4</div>
-    <div className='sliderChildren'>5</div>
-    <div className='sliderChildren'>6</div>
-    <div className='sliderChildren'>7</div>
-    <div className='sliderChildren'>8</div>
-    <div className='sliderChildren'>9</div>
-</Slider>;
+export const Horizontal = () => (
+  <SliderSlick settings={settings}>
+    <SliderItem image={<Image1 />} title="titulo1" subtitle="subtitulo" />
+    <SliderItem image={<Image1 />} title="titulo" subtitle="subtitulo" />
+  </SliderSlick>
+)

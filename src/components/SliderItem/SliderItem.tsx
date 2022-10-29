@@ -1,3 +1,6 @@
+import { H1 } from "../Typography/H1/H1"
+import { P } from "../Typography/P/P"
+
 type SliderItemProps = {
   image?: React.ReactNode
   title?: string
@@ -7,7 +10,7 @@ type SliderItemProps = {
 export const SliderItem = ({image, subtitle, title}: SliderItemProps) => {
   return <div className="slider-container">
     <div className="slider-img">{image}</div>
-    <div className="slider-title">{title}</div>
-    <div className="slider-subtitle">{subtitle}</div>
+    <H1 className="slider-title">{title}</H1>
+    <P className="slider-subtitle">{subtitle}</P>
   </div>
 }
