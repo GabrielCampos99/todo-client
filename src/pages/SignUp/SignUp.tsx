@@ -10,14 +10,14 @@ type Props = {}
 export const SignUp = (props: Props) => {
   return (
     <Wrapper>
-      <Header path="/sign-in"/>
+      <Header path="/sign-in" />
       <H1 style={{ marginTop: "4rem" }}>Cadastro</H1>
 
       <Input placeholder="Digite seu nome" label="Nome" stylesWrapper={{ marginTop: "2.5rem" }} />
 
       <Input placeholder="Digite seu e-mail" label="E-mail" stylesWrapper={{ marginTop: "2.5rem" }} />
 
-      <Input placeholder="Digite sua senha" label="E-mail" stylesWrapper={{ marginTop: "2.5rem" }} type={"password"} />
+      <Input placeholder="Digite sua senha" label="Senha" stylesWrapper={{ marginTop: "2.5rem" }} type={"password"} />
 
       <Button styledType="submit" style={{ marginTop: "7rem" }}>
         Login
@@ -34,6 +34,8 @@ export const Wrapper = styled.div`
   padding: 1.4rem 2.4rem;
   display: flex;
   flex-direction: column;
+  max-width: 108rem;
+  margin: 0 auto;
   > h5 {
     margin-top: 4.5rem;
     text-align: center;

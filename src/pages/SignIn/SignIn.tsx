@@ -31,6 +31,8 @@ export const Wrapper = styled.div`
   padding: 1.4rem 2.4rem;
   display: flex;
   flex-direction: column;
+  max-width: 108rem;
+  margin: 0 auto;
   > h5 {
     margin-top: 4.5rem;
     text-align: center;
