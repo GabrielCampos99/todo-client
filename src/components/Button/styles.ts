@@ -15,6 +15,7 @@ const wrapperModifiers = {
 
 export const Button = styled.div<Pick<ButtonProps, "styledType">>`
   ${({ styledType }) => css`
+    text-align: center;
     padding: 1.2rem 2.4rem;
     outline: none;
     border: none;

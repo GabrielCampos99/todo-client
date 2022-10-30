@@ -7,12 +7,15 @@ import { H1 } from "../../components/Typography/H1/H1"
 
 type Props = {}
 
-export const SignIn = (props: Props) => {
+export const SignUp = (props: Props) => {
   return (
     <Wrapper>
-      <HeaderForm path="/" />
-      <H1 style={{ marginTop: "4rem" }}>Login</H1>
-      <Input placeholder="Digite seu e-mail" label="E-mail" stylesWrapper={{ marginTop: "5.4rem" }} />
+      <HeaderForm path="/sign-in"/>
+      <H1 style={{ marginTop: "4rem" }}>Cadastro</H1>
+
+      <Input placeholder="Digite seu nome" label="Nome" stylesWrapper={{ marginTop: "2.5rem" }} />
+
+      <Input placeholder="Digite seu e-mail" label="E-mail" stylesWrapper={{ marginTop: "2.5rem" }} />
 
       <Input placeholder="Digite sua senha" label="E-mail" stylesWrapper={{ marginTop: "2.5rem" }} type={"password"} />
 
@@ -21,7 +24,7 @@ export const SignIn = (props: Props) => {
       </Button>
 
       <h5>
-        Não tem uma conta?<Link to={"/sign-up"}> Registre-se</Link>
+        Ja tem uma conta?<Link to={"/sign-in"}> Entrar</Link>
       </h5>
     </Wrapper>
   )
