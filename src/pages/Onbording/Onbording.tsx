@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import styled from "styled-components"
+import { Header } from "../../components/Header/Header.form"
 import { SliderSettings, SliderSlick } from "../../components/Slider/Slider"
 import { SliderItem } from "../../components/SliderItem/SliderItem"
 import { Image1 } from "../../components/svg/Image1/Image1"
@@ -30,12 +32,29 @@ export const Onbording = ({}: OnbordingProps) => {
     { image: <Image3 />, title: "Organize suas tarefas", subtitle: "Você pode personalizar as suas tarefas diarias adicionando suas tarefas em categorias diferentes" },
   ]
   return (
-    <div className="container">
-      <SliderSlick settings={settings} index={index}>
-        {onboardInfo.map((info) => (
-          <SliderItem image={info.image} title={info.title} subtitle={info.subtitle} key={info.title} />
-        ))}
-      </SliderSlick>
-    </div>
+    <Content>
+      <Header path="/sign-in" text="PULAR" />
+      <Wrapper>
+        <SliderSlick settings={settings} index={index}>
+          {onboardInfo.map((info) => (
+            <SliderItem image={info.image} title={info.title} subtitle={info.subtitle} key={info.title} />
+          ))}
+        </SliderSlick>
+      </Wrapper>
+    </Content>
   )
 }
+
+const Wrapper = styled.div`
+  max-width: 100%;
+  margin: auto;
+  text-align: center;
+`
+
+const Content = styled.div`
+  padding: 1.4rem 2.4rem;
+  display: flex;
+  height: 95vh;
+  flex-direction: column;
+  align-items: center;
+`

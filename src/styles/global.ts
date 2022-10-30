@@ -32,11 +32,11 @@ p {
   color: #ffffff;
 }
 
-.container {
+/* .container {
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
-}
+} */
 
 * {
   margin: 0;
