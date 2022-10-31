@@ -58,7 +58,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     if (!response) return
     localStorage.setItem("token", JSON.stringify(response.token))
     axios.defaults.headers.common["Authorization"] = `Bearer ${response.token}`
-    navigate(`/tarefas`)
+    navigate(routesPath.tasks)
     setAuthenticated(true)
   }, [response])
 
@@ -66,7 +66,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     setAuthenticated(false)
     localStorage.removeItem("token")
     axios.defaults.headers.common["Authorization"] = undefined
-    navigate("/sign-in")
+    navigate(routesPath.singIn)
   }
 
   if (userIsLoading) {
