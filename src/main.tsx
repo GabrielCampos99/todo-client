@@ -7,6 +7,7 @@ import { SignIn } from "./pages/SignIn/SignIn"
 import { SignUp } from "./pages/SignUp/SignUp"
 import { Onbording } from "./pages/Onbording/Onbording"
 import AuthProvider from "./Context/AuthContext"
+import { Tasks } from "./pages/Tasks/Tasks"
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <GlobalStyles />
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <Route path={routesPath.home} element={<Onbording />} />
           <Route path={routesPath.singIn} element={<SignIn />} />
           <Route path={routesPath.singUp} element={<SignUp />} />
+          <Route path={routesPath.tasks} element={<Tasks />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
