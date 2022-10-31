@@ -1,26 +1,60 @@
+import { useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { Button } from "../../components/Button/Button"
 import { Header } from "../../components/Header/Header.form"
 import { Input } from "../../components/Input/Input"
 import { H1 } from "../../components/Typography/H1/H1"
+import { useAxios } from "../../hooks/Axios/useAxios"
 
 type Props = {}
 
+type SignUpRef = {
+  email: string
+  password: string
+  name: string
+}
+
 export const SignUp = (props: Props) => {
+  const singUpRef = useRef<SignUpRef>({ email: "", password: "", name: "" })
+  const { error, loading, response, fetchData } = useAxios<any>()
+
+  const handleForm = (event: React.ChangeEvent<HTMLInputElement>, name: "email" | "password" | "name") => {
+    const value = event.target.value
+    singUpRef.current[name] = value
+    console.log(singUpRef.current, "loginRef.current")
+  }
+
+  const handleSignUp = async (body: any) => {
+    await fetchData({
+      method: "POST",
+      url: "/users",
+      headers: {
+        accept: "*/*",
+      },
+      data: body,
+    })
+  }
+
+  useEffect(() => {
+    console.log(error, "error")
+    console.log(loading, "loading")
+    console.log(response, "response")
+  }, [error, loading, response])
+
   return (
     <Wrapper>
       <Header path="/sign-in" />
       <H1 style={{ marginTop: "4rem" }}>Cadastro</H1>
 
-      <Input placeholder="Digite seu nome" label="Nome" stylesWrapper={{ marginTop: "2.5rem" }} />
+      <Input placeholder="Digite seu nome" label="Nome" stylesWrapper={{ marginTop: "2.5rem" }} onChange={(event) => handleForm(event, "name")} />
 
-      <Input placeholder="Digite seu e-mail" label="E-mail" stylesWrapper={{ marginTop: "2.5rem" }} />
+      <Input placeholder="Digite seu e-mail" label="E-mail" stylesWrapper={{ marginTop: "2.5rem" }} onChange={(event) => handleForm(event, "email")} />
 
-      <Input placeholder="Digite sua senha" label="Senha" stylesWrapper={{ marginTop: "2.5rem" }} type={"password"} />
+      <Input placeholder="Digite sua senha" label="Senha" stylesWrapper={{ marginTop: "2.5rem" }} type={"password"} onChange={(event) => handleForm(event, "password")} />
 
-      <Button styledType="submit" style={{ marginTop: "7rem" }}>
-        Login
+      <Button styledType="submit" style={{ marginTop: "7rem" }} onClick={() => handleSignUp(singUpRef.current)}>
+        Cadastrar
       </Button>
 
       <h5>
