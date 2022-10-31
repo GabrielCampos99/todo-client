@@ -2,6 +2,7 @@ import axios from "axios"
 import * as React from "react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { routesPath } from "../constants/routes"
 import { useAxios } from "../hooks/Axios/useAxios"
 
 type Props = {
@@ -34,6 +35,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
     if (token) {
       axios.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
+      navigate(`${routesPath.tasks}`)
       setAuthenticated(true)
     }
 
@@ -56,8 +58,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     if (!response) return
     localStorage.setItem("token", JSON.stringify(response.token))
     axios.defaults.headers.common["Authorization"] = `Bearer ${response.token}`
+    navigate(`/tarefas`)
     setAuthenticated(true)
-    navigate("/")
   }, [response])
 
   function handleLogout() {
