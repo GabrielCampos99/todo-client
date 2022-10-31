@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { Button } from "../../components/Button/Button"
+import { CardTask } from "../../components/Card/Card.task"
 import { Header } from "../../components/Header/Header.form"
-import { H1 } from "../../components/Typography/H1/H1"
 import { useAxios } from "../../hooks/Axios/useAxios"
 import { ITask, ITaskResponse } from "../../interfaces/Tasks/ITask"
 
@@ -21,8 +19,6 @@ export const Tasks = (props: TasksProps) => {
         accept: "*/*",
       },
     })
-
-    console.log(response?.data, "response")
   }, [response])
 
   useEffect(() => {
@@ -40,6 +36,11 @@ export const Tasks = (props: TasksProps) => {
   return (
     <Wrapper>
       <Header />
+      <TasksCardContainer>
+        {response?.data.map((task) => (
+          <CardTask task={task} key={`${task.updated_at}`} />
+        ))}
+      </TasksCardContainer>
     </Wrapper>
   )
 }
@@ -61,4 +62,11 @@ export const Wrapper = styled.div`
       text-decoration: none;
     }
   }
+`
+
+export const TasksCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  margin-top: 1.6rem;
 `
