@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
 import { CardTask } from "../../components/Card/Card.task"
-import { Header } from "../../components/Header/Header.form"
+import { FiMenu, FiSearch } from "react-icons/fi"
+import { HeaderLogged } from "../../components/Header/Header.logged"
 import { useAxios } from "../../hooks/Axios/useAxios"
 import { ITask, ITaskResponse } from "../../interfaces/Tasks/ITask"
+import { H1 } from "../../components/Typography/H1/H1"
+import { Avatar } from "../../components/Avatar/Avatar"
+import { Input } from "../../components/Input/Input"
 
 type TasksProps = {}
 
@@ -35,7 +39,8 @@ export const Tasks = (props: TasksProps) => {
 
   return (
     <Wrapper>
-      <Header />
+      <HeaderLogged leftItem={<FiMenu style={{ cursor: "pointer" }} color="#cecece" />} middleItem={<H1 style={{ fontSize: "2rem", color: "#cecece", fontWeight: "normal" }}>Tarefas</H1>} rightItem={<Avatar />} />
+      <Input icon={<FiSearch color="#cecece" />} stylesWrapper={{ margin: "2rem 0 " }} />
       <TasksCardContainer>
         {response?.data.map((task) => (
           <CardTask task={task} key={`${task.updated_at}`} />
