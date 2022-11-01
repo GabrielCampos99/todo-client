@@ -3,4 +3,5 @@ export const routesPath = {
   singIn: "/sign-in",
   singUp: "/sign-up",
   tasks: "/tarefas",
+  user: '/usuario'
 }
