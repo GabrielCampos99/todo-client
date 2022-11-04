@@ -19,11 +19,5 @@ export const SidebarData: TSidebarData[] = [
     title: "Tarefas",
     path: routesPath.tasks,
     icon: <FiTrello />,
-  },
-  {
-    title: "Sair",
-    icon: <FiLogOut color="#ff4949"/>,
-    color: "",
-    cName: 'logout nav-text'
-  },
+  }
 ]

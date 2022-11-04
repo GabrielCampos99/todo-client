@@ -1,8 +1,10 @@
-import React from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { FiX } from "react-icons/fi"
 import { SidebarData } from "../../constants/SidebarData"
+import { FiLogOut } from "react-icons/fi"
+import React from "react"
+import { TAuthContext, AuthContext } from "../../Context/AuthContext"
 
 type NavbarProps = {
   sidebar?: boolean
@@ -10,6 +12,8 @@ type NavbarProps = {
 }
 
 export const Navbar = ({ sidebar = true, setSidebar }: NavbarProps) => {
+  const { handleLogout } = React.useContext(AuthContext) as TAuthContext
+
   return (
     <NavWrapper>
       <div className={sidebar ? "nav-menu active" : "nav-menu"}>
@@ -29,6 +33,12 @@ export const Navbar = ({ sidebar = true, setSidebar }: NavbarProps) => {
               </li>
             )
           })}
+          <li className={"logout nav-text"}>
+            <a onClick={handleLogout}>
+              <FiLogOut color="#ff4949" />
+              <span>Sair</span>
+            </a>
+          </li>
         </ul>
       </div>
     </NavWrapper>
@@ -37,7 +47,7 @@ export const Navbar = ({ sidebar = true, setSidebar }: NavbarProps) => {
 
 export const NavWrapper = styled.nav`
   .navbar {
-    background-color: #060b26;
+    background-color: #363636;
     height: 80px;
     display: flex;
     justify-content: start;
@@ -51,7 +61,7 @@ export const NavWrapper = styled.nav`
   }
 
   .nav-menu {
-    background-color: #060b26;
+    background-color: #363636;
     width: 250px;
     height: 100vh;
     display: flex;
@@ -65,6 +75,7 @@ export const NavWrapper = styled.nav`
   .nav-menu.active {
     left: 0;
     transition: 350ms;
+    border-right: 1px solid #8687e7;
   }
 
   .nav-text {
@@ -97,7 +108,7 @@ export const NavWrapper = styled.nav`
   }
 
   .navbar-toggle {
-    background-color: #060b26;
+    background-color: #363636;
     width: 100%;
     height: 80px;
     display: flex;
@@ -116,6 +127,7 @@ export const NavWrapper = styled.nav`
 
   a {
     text-decoration: none;
+    cursor: pointer;
   }
 
   .logout {
