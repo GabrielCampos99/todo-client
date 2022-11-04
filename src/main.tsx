@@ -8,6 +8,7 @@ import { SignUp } from "./pages/SignUp/SignUp"
 import { Onbording } from "./pages/Onbording/Onbording"
 import AuthProvider from "./Context/AuthContext"
 import { Tasks } from "./pages/Tasks/Tasks"
+import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute"
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <GlobalStyles />
@@ -17,7 +18,14 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <Route path={routesPath.home} element={<Onbording />} />
           <Route path={routesPath.singIn} element={<SignIn />} />
           <Route path={routesPath.singUp} element={<SignUp />} />
-          <Route path={routesPath.tasks} element={<Tasks />} />
+          <Route
+            path={routesPath.tasks}
+            element={
+              <PrivateRoute>
+                <Tasks />
+              </PrivateRoute>
+            }
+          ></Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>
