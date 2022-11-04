@@ -18,7 +18,7 @@ export type TAuthContext = {
   authenticated: boolean
   setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
   handleLogin: (obj: any) => void
-  handleLogout: (obj: any) => void
+  handleLogout: () => void
 }
 
 export const AuthContext = React.createContext<TAuthContext | null>(null)
