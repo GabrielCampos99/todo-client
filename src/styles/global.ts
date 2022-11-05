@@ -22,6 +22,17 @@ body {
   font-size: 62.5%;
   background-color: #121212;
   font-family: 'Lato', sans-serif;
+
+  
+    .toasts-wrapper {
+      position: absolute;
+      bottom: 20px;
+      max-width: 30rem;
+      left: 0;
+      transform: translateX(25%);
+  }
+  
+
 }
 
 
