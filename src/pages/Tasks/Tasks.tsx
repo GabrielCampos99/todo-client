@@ -13,8 +13,7 @@ import { Navbar } from "../../components/Navbar/Navbar"
 type TasksProps = {}
 
 export const Tasks = (props: TasksProps) => {
-  const { error, loading, response, fetchData } = useAxios<ITaskResponse>()
-  const [tasks, setTasks] = useState<ITask[]>()
+  const { error, loading, response, fetchData } = useAxios<ITaskResponse, any>()
   const [sidebar, setSidebar] = useState<boolean>(false)
 
   const listTasks = useCallback(async () => {
