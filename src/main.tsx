@@ -9,25 +9,28 @@ import { Onbording } from "./pages/Onbording/Onbording"
 import AuthProvider from "./Context/AuthContext"
 import { Tasks } from "./pages/Tasks/Tasks"
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute"
+import { ToastProvider } from "./Context/ToastContext"
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <GlobalStyles />
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path={routesPath.home} element={<Onbording />} />
-          <Route path={routesPath.singIn} element={<SignIn />} />
-          <Route path={routesPath.singUp} element={<SignUp />} />
-          <Route
-            path={routesPath.tasks}
-            element={
-              <PrivateRoute>
-                <Tasks />
-              </PrivateRoute>
-            }
-          ></Route>
-        </Routes>
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <Routes>
+            <Route path={routesPath.home} element={<Onbording />} />
+            <Route path={routesPath.singIn} element={<SignIn />} />
+            <Route path={routesPath.singUp} element={<SignUp />} />
+            <Route
+              path={routesPath.tasks}
+              element={
+                <PrivateRoute>
+                  <Tasks />
+                </PrivateRoute>
+              }
+            ></Route>
+          </Routes>
+        </AuthProvider>
+      </ToastProvider>
     </BrowserRouter>
   </React.StrictMode>
 )
