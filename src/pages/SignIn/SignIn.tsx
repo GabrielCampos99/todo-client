@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { Button } from "../../components/Button/Button"
@@ -6,7 +6,6 @@ import { Header } from "../../components/Header/Header.form"
 import { Input } from "../../components/Input/Input"
 import { H1 } from "../../components/Typography/H1/H1"
 import { AuthContext, TAuthContext } from "../../Context/AuthContext"
-import { useAxios } from "../../hooks/Axios/useAxios"
 
 type LoginRef = {
   email: string
@@ -16,7 +15,8 @@ type Props = {}
 
 export const SignIn = (props: Props) => {
   const loginRef = useRef<LoginRef>({ email: "", password: "" })
-  const { handleLogin } = React.useContext(AuthContext) as TAuthContext;
+  const [error, setError] = useState<string[]>([])
+  const { handleLogin } = React.useContext(AuthContext) as TAuthContext
 
   const handleForm = (event: React.ChangeEvent<HTMLInputElement>, name: "email" | "password") => {
     const value = event.target.value
@@ -24,15 +24,39 @@ export const SignIn = (props: Props) => {
     console.log(loginRef.current, "loginRef.current")
   }
 
+  const handleCanSubmit = (loginData: React.MutableRefObject<LoginRef>) => {
+    const emailTest = /\S+@\S+\.\S+/.test(loginData.current.email)
+    const passLenght = loginData.current.password.length >= 5
+    const errors: string[] = []
+    console.log(passLenght, "passLenght")
+    console.log(emailTest, "emailTest")
+
+    if (!passLenght) {
+      setError((oldState) => [...oldState, "password"])
+      errors.push("password")
+    }
+    if (!emailTest) {
+      setError((oldState) => [...oldState, "email"])
+      errors.push("email")
+    }
+
+    console.log(errors, 'errrerere')
+
+    if (errors.length > 0) return
+
+    setError([])
+    handleLogin(loginData.current)
+  }
+
   return (
     <Wrapper>
       <Header path="/" />
       <H1 style={{ marginTop: "4rem" }}>Login</H1>
-      <Input placeholder="Digite seu e-mail" label="E-mail" stylesWrapper={{ marginTop: "5.4rem" }} onChange={(event) => handleForm(event, "email")} />
+      <Input placeholder="Digite seu e-mail" label="E-mail" type={"email"} stylesWrapper={{ marginTop: "5.4rem" }} onChange={(event) => handleForm(event, "email")} error={error.find((error) => error === "email")} />
 
-      <Input placeholder="Digite sua senha" label="E-mail" stylesWrapper={{ marginTop: "2.5rem" }} type={"password"} onChange={(event) => handleForm(event, "password")} />
+      <Input placeholder="Digite sua senha" label="Senha" stylesWrapper={{ marginTop: "2.5rem" }} type={"password"} onChange={(event) => handleForm(event, "password")} error={error.find((error) => error === "password")} />
 
-      <Button styledType="submit" style={{ marginTop: "7rem" }} onClick={() => handleLogin(loginRef.current)}>
+      <Button styledType="submit" style={{ marginTop: "7rem" }} onClick={() => handleCanSubmit(loginRef)}>
         Login
       </Button>
 

@@ -17,7 +17,7 @@ type SignUpRef = {
 
 export const SignUp = (props: Props) => {
   const singUpRef = useRef<SignUpRef>({ email: "", password: "", name: "" })
-  const { error, loading, response, fetchData } = useAxios<any>()
+  const { error, loading, response, fetchData } = useAxios<any, any>()
 
   const handleForm = (event: React.ChangeEvent<HTMLInputElement>, name: "email" | "password" | "name") => {
     const value = event.target.value
