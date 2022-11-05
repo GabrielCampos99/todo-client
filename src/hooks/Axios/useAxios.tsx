@@ -3,9 +3,9 @@ import { useState, useEffect } from "react"
 
 axios.defaults.baseURL = "http://localhost:3333/"
 
-export function useAxios<T> () {
+export function useAxios<T, E> () {
   const [response, setResponse] = useState<T>()
-  const [error, setError] = useState("")
+  const [error, setError] = useState<E>()
   const [loading, setLoading] = useState(true)
 
   const fetchData = async (params: any) => {
