@@ -26,7 +26,7 @@ export const SignIn = (props: Props) => {
 
   const handleCanSubmit = (loginData: React.MutableRefObject<LoginRef>) => {
     const emailTest = /\S+@\S+\.\S+/.test(loginData.current.email)
-    const passLenght = loginData.current.password.length >= 5
+    const passLenght = loginData.current.password.length >= 4
     const errors: string[] = []
     console.log(passLenght, "passLenght")
     console.log(emailTest, "emailTest")
