@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { Button } from "../../components/Button/Button"
 import { Header } from "../../components/Header/Header.form"
 import { Input } from "../../components/Input/Input"
 import { H1 } from "../../components/Typography/H1/H1"
+import { routesPath } from "../../constants/routes"
+import { useToast, TToastContext } from "../../Context/ToastContext"
 import { useAxios } from "../../hooks/Axios/useAxios"
 
 type Props = {}
@@ -18,6 +20,8 @@ type SignUpRef = {
 export const SignUp = (props: Props) => {
   const singUpRef = useRef<SignUpRef>({ email: "", password: "", name: "" })
   const { error, loading, response, fetchData } = useAxios<any, any>()
+  const toast = useToast() as TToastContext
+  const navigate = useNavigate()
 
   const handleForm = (event: React.ChangeEvent<HTMLInputElement>, name: "email" | "password" | "name") => {
     const value = event.target.value
@@ -35,6 +39,15 @@ export const SignUp = (props: Props) => {
       data: body,
     })
   }
+
+  useEffect(() => {
+    if (!!response && !error) {
+      toast.contextValue.open(`Usuario criado com sucesso`)
+      navigate(`${routesPath.singIn}`)
+    }
+
+    if (!response && !!error) toast.contextValue.open(`${error.response.data.message}`)
+  }, [response, error])
 
   useEffect(() => {
     console.log(error, "error")
