@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { routesPath } from "../constants/routes"
 import { useAxios } from "../hooks/Axios/useAxios"
 import { TToastContext, useToast } from "./ToastContext"
+import jwt_decode from "jwt-decode"
 
 type Props = {
   children?: React.ReactNode
@@ -15,7 +16,7 @@ type UserResponse = {
   user: { email: string; name: string }
 }
 
-type ErrorResponse = {
+export type ErrorResponse = {
   response: {
     data: {
       message: string
@@ -71,16 +72,25 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     const token = localStorage.getItem("token")
 
     if (token) {
-      axios.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
-      navigate(`${routesPath.tasks}`)
-      setAuthenticated(true)
+      var decoded: any = jwt_decode(token)
+      let currentDate = new Date()
+      if (decoded.exp * 1000 < currentDate.getTime()) {
+        handleLogout()
+      } else {
+        axios.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
+        navigate(`${routesPath.tasks}`)
+        setAuthenticated(true)
+      }
     }
-
     setUserIsLoading(false)
   }, [])
 
   useEffect(() => {
-    if (error) {
+    console.log(authenticated, "setAuthenticated")
+  }, [])
+
+  useEffect(() => {
+    if (error?.response.data.message) {
       toast.contextValue.open(`${error.response.data.message}`)
     }
   }, [error])

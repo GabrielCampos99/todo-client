@@ -9,13 +9,13 @@ import { H1 } from "../../components/Typography/H1/H1"
 import { Avatar } from "../../components/Avatar/Avatar"
 import { Input } from "../../components/Input/Input"
 import { Navbar } from "../../components/Navbar/Navbar"
+import { ErrorResponse } from "../../Context/AuthContext"
 
 type TasksProps = {}
 
 export const Tasks = (props: TasksProps) => {
-  const { error, loading, response, fetchData } = useAxios<ITaskResponse, any>()
+  const { error, loading, response, fetchData } = useAxios<ITaskResponse, ErrorResponse>()
   const [sidebar, setSidebar] = useState<boolean>(false)
-
   const listTasks = useCallback(async () => {
     await fetchData({
       method: "GET",
@@ -26,6 +26,8 @@ export const Tasks = (props: TasksProps) => {
     })
   }, [response])
 
+  
+
   useEffect(() => {
     listTasks()
   }, [])
@@ -35,7 +37,7 @@ export const Tasks = (props: TasksProps) => {
   }
 
   if (error) {
-    return <Wrapper>ERROR: {error}</Wrapper>
+    return <Wrapper>ERROR: {error.response.data.message}</Wrapper>
   }
 
   return (
