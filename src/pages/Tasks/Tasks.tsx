@@ -10,6 +10,9 @@ import { Avatar } from "../../components/Avatar/Avatar"
 import { Input } from "../../components/Input/Input"
 import { Navbar } from "../../components/Navbar/Navbar"
 import { ErrorResponse } from "../../Context/AuthContext"
+import ButtonAdd from "../../components/ButtonAdd/ButtonAdd"
+import { Modal } from "../../components/Modal/Modal"
+import { P } from "../../components/Typography/P/P"
 
 type TasksProps = {}
 
@@ -25,8 +28,6 @@ export const Tasks = (props: TasksProps) => {
       },
     })
   }, [response])
-
-  
 
   useEffect(() => {
     listTasks()
@@ -50,6 +51,13 @@ export const Tasks = (props: TasksProps) => {
           <CardTask task={task} key={`${task.updated_at}`} />
         ))}
       </TasksCardContainer>
+
+      <ButtonAdd onClick={() => console.log("oie")} />
+      <Modal isOpen={true}>
+        <P style={{ fontWeight: "bold", fontSize: "2rem" }}>teste</P>
+        <Input label={"Tarefa"} stylesLabel={{ fontSize: "1.8rem" }} stylesWrapper={{ width: "90%", margin: "1rem auto" }} />
+        <Input label={"Descrição"} stylesLabel={{ fontSize: "1.8rem" }} stylesWrapper={{ width: "90%", margin: "1rem auto" }} />
+      </Modal>
     </Wrapper>
   )
 }
@@ -72,6 +80,8 @@ export const Wrapper = styled.div`
       text-decoration: none;
     }
   }
+  height: 100%;
+  min-height: 100vh;
 `
 
 export const TasksCardContainer = styled.div`

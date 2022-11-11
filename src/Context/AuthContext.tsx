@@ -86,10 +86,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    console.log(authenticated, "setAuthenticated")
-  }, [])
-
-  useEffect(() => {
     if (error?.response.data.message) {
       toast.contextValue.open(`${error.response.data.message}`)
     }

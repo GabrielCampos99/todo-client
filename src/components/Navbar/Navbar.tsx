@@ -70,12 +70,14 @@ export const NavWrapper = styled.nav`
     top: 0;
     left: -100%;
     transition: 850ms;
+    z-index: 9999;
   }
 
   .nav-menu.active {
     left: 0;
     transition: 350ms;
     border-right: 1px solid #8687e7;
+    z-index: 9999;
   }
 
   .nav-text {

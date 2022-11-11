@@ -3,10 +3,11 @@ import styled from "styled-components"
 
 type LabelProps = {
   children: string
+  stylesLabel?: React.CSSProperties
 }
 
-const Label = ({ children }: LabelProps) => {
-  return <LabelComponent>{children}</LabelComponent>
+const Label = ({ children, stylesLabel }: LabelProps) => {
+  return <LabelComponent style={stylesLabel}>{children}</LabelComponent>
 }
 
 export default Label
