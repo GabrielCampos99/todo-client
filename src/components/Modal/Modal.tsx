@@ -20,7 +20,7 @@ export const Modal = ({ children, closeModal, isOpen = false }: ModalProps) => {
 
 export const ModalContainer = styled.div<Pick<ModalProps, "isOpen">>`
   ${({ isOpen }) => css`
-    position: relative;
+    position: absolute;
     padding: 1rem;
     border-radius: 1rem;
     display: ${isOpen ? "flex" : "none"};

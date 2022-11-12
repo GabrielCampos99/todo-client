@@ -15,11 +15,19 @@ import { Modal } from "../../components/Modal/Modal"
 import { P } from "../../components/Typography/P/P"
 import { TextArea } from "../../components/TextArea/TextArea"
 import { ITaskForm } from "../../interfaces/Tasks/ITaskForm"
+import { Button } from "../../components/Button/Button"
+import { useToast, TToastContext } from "../../Context/ToastContext"
 
 type TasksProps = {}
 
 export const Tasks = (props: TasksProps) => {
   const { error, loading, response, fetchData } = useAxios<ITaskResponse, ErrorResponse>()
+  const { error: e, loading: l, response: r, fetchData: p  } = useAxios<any, any>()
+  const toast = useToast() as TToastContext
+
+
+
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [sidebar, setSidebar] = useState<boolean>(false)
   const taskFormRef = useRef<ITaskForm>({})
@@ -31,21 +39,31 @@ export const Tasks = (props: TasksProps) => {
         accept: "*/*",
       },
     })
-  }, [response])
+  }, [])
 
-  const handleCreateTask = useCallback(async () => {
-    await fetchData({
-      method: "GET",
+  const handleCreateTask = async () => {
+    await p({
+      method: "POST",
       url: "/tasks",
       headers: {
         accept: "*/*",
       },
+      data: taskFormRef.current,
     })
-  }, [response])
+    listTasks()
+    closeModal()
+  }
+
+  useEffect(() => {
+    console.log(e, 'aqui')
+    if (e?.response.data.message) {
+      toast.contextValue.open(`${e.response.data.message}`)
+    }
+  },[e])
 
   const handleTaskForm = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, inputName: string) => {
     const value = event.target.value
-    taskFormRef.current[inputName] = value    
+    taskFormRef.current[inputName] = value
   }
 
   const closeModal = () => {
@@ -82,6 +100,9 @@ export const Tasks = (props: TasksProps) => {
           <P style={{ fontWeight: "bold", fontSize: "2rem" }}>Criar Tarefa</P>
           <Input label={"Tarefa"} stylesLabel={{ fontSize: "1.8rem" }} stylesWrapper={{ width: "90%", margin: "1rem auto" }} onChange={(event) => handleTaskForm(event, "title")} />
           <TextArea label="Descrição" stylesLabel={{ fontSize: "1.8rem" }} stylesWrapper={{ width: "90%", margin: "1rem auto" }} onChange={(event) => handleTaskForm(event, "description")} />
+          <Button styledType="submit" onClick={handleCreateTask}>
+            Criar
+          </Button>
         </Modal>
       )}
     </Wrapper>
