@@ -1,4 +1,5 @@
-import React, { InputHTMLAttributes } from "react"
+import React, { InputHTMLAttributes, MutableRefObject, useState } from "react"
+import { ITaskForm } from "../../interfaces/Tasks/ITaskForm"
 import Label from "../Label/Label"
 import { P } from "../Typography/P/P"
 import * as S from "./styles"
@@ -8,17 +9,22 @@ export type InputProps = {
   stylesLabel?: React.CSSProperties
   icon?: React.ReactNode
   error?: any
+  onReset?: boolean
 } & InputHTMLAttributes<HTMLInputElement>
 
-export const Input = ({ label, stylesWrapper, icon,stylesLabel, error, ...props }: InputProps) => {
+export const Input = ({ label, stylesWrapper, icon, stylesLabel, error, ...props }: InputProps) => {
+  const [inputValue, setInputValue] = useState<string>()
+
+
+  
   return (
-    <S.Wrapper style={stylesWrapper} >
-      {label && <Label children={label} stylesLabel={stylesLabel}/>}
+    <S.Wrapper style={stylesWrapper}>
+      {label && <Label children={label} stylesLabel={stylesLabel} />}
       <S.Input error={error}>
         {icon && icon}
-        <input {...props} />
+        <input {...props} value={inputValue} />
       </S.Input>
-      {error && <P style={{color: '#ff4949'}}>Opss... Algo de errado por aqui</P>}
+      {error && <P style={{ color: "#ff4949" }}>Opss... Algo de errado por aqui</P>}
     </S.Wrapper>
   )
 }

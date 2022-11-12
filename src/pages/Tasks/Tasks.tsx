@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { CardTask } from "../../components/Card/Card.task"
 import { FiMenu, FiSearch } from "react-icons/fi"
@@ -13,12 +13,16 @@ import { ErrorResponse } from "../../Context/AuthContext"
 import ButtonAdd from "../../components/ButtonAdd/ButtonAdd"
 import { Modal } from "../../components/Modal/Modal"
 import { P } from "../../components/Typography/P/P"
+import { TextArea } from "../../components/TextArea/TextArea"
+import { ITaskForm } from "../../interfaces/Tasks/ITaskForm"
 
 type TasksProps = {}
 
 export const Tasks = (props: TasksProps) => {
   const { error, loading, response, fetchData } = useAxios<ITaskResponse, ErrorResponse>()
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [sidebar, setSidebar] = useState<boolean>(false)
+  const taskFormRef = useRef<ITaskForm>({})
   const listTasks = useCallback(async () => {
     await fetchData({
       method: "GET",
@@ -28,6 +32,26 @@ export const Tasks = (props: TasksProps) => {
       },
     })
   }, [response])
+
+  const handleCreateTask = useCallback(async () => {
+    await fetchData({
+      method: "GET",
+      url: "/tasks",
+      headers: {
+        accept: "*/*",
+      },
+    })
+  }, [response])
+
+  const handleTaskForm = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, inputName: string) => {
+    const value = event.target.value
+    taskFormRef.current[inputName] = value    
+  }
+
+  const closeModal = () => {
+    taskFormRef.current = {}
+    setIsModalOpen(false)
+  }
 
   useEffect(() => {
     listTasks()
@@ -52,12 +76,14 @@ export const Tasks = (props: TasksProps) => {
         ))}
       </TasksCardContainer>
 
-      <ButtonAdd onClick={() => console.log("oie")} />
-      <Modal isOpen={true}>
-        <P style={{ fontWeight: "bold", fontSize: "2rem" }}>teste</P>
-        <Input label={"Tarefa"} stylesLabel={{ fontSize: "1.8rem" }} stylesWrapper={{ width: "90%", margin: "1rem auto" }} />
-        <Input label={"Descrição"} stylesLabel={{ fontSize: "1.8rem" }} stylesWrapper={{ width: "90%", margin: "1rem auto" }} />
-      </Modal>
+      <ButtonAdd onClick={() => setIsModalOpen(true)} />
+      {isModalOpen && (
+        <Modal isOpen={isModalOpen} closeModal={closeModal}>
+          <P style={{ fontWeight: "bold", fontSize: "2rem" }}>Criar Tarefa</P>
+          <Input label={"Tarefa"} stylesLabel={{ fontSize: "1.8rem" }} stylesWrapper={{ width: "90%", margin: "1rem auto" }} onChange={(event) => handleTaskForm(event, "title")} />
+          <TextArea label="Descrição" stylesLabel={{ fontSize: "1.8rem" }} stylesWrapper={{ width: "90%", margin: "1rem auto" }} onChange={(event) => handleTaskForm(event, "description")} />
+        </Modal>
+      )}
     </Wrapper>
   )
 }

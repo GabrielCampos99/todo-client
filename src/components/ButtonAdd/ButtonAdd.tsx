@@ -16,6 +16,7 @@ export default ButtonAdd
 
 export const Button = styled.button<ButtonTypes>`
   ${({}) => css`
+  cursor: pointer;
     background-color: #8687e7;
     border: none;
     outline: none;

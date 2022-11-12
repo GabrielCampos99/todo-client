@@ -1,9 +1,9 @@
 import axios from "axios"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 axios.defaults.baseURL = "http://localhost:3333/"
 
-export function useAxios<T, E> () {
+export function useAxios<T, E>() {
   const [response, setResponse] = useState<T>()
   const [error, setError] = useState<E>()
   const [loading, setLoading] = useState(true)
@@ -18,10 +18,5 @@ export function useAxios<T, E> () {
       setLoading(false)
     }
   }
-
-  /*   useEffect(() => {
-        fetchData(params);
-    }, []); // execute once only 🚀 */
-
   return { response, error, loading, fetchData }
 }
