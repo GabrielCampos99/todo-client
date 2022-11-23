@@ -17,16 +17,14 @@ import { TextArea } from "../../components/TextArea/TextArea"
 import { ITaskForm } from "../../interfaces/Tasks/ITaskForm"
 import { Button } from "../../components/Button/Button"
 import { useToast, TToastContext } from "../../Context/ToastContext"
+import { Spinner } from "../../components/Spinner/Spinner"
 
 type TasksProps = {}
 
 export const Tasks = (props: TasksProps) => {
   const { error, loading, response, fetchData } = useAxios<ITaskResponse, ErrorResponse>()
-  const { error: e, loading: l, response: r, fetchData: p  } = useAxios<any, any>()
+  const { error: e, loading: l, response: r, fetchData: p } = useAxios<any, any>()
   const toast = useToast() as TToastContext
-
-
-
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [sidebar, setSidebar] = useState<boolean>(false)
@@ -39,6 +37,19 @@ export const Tasks = (props: TasksProps) => {
         accept: "*/*",
       },
     })
+  }, [])
+
+  const { error: deleteError, loading: deleteLoading, response: deleteResponse, fetchData: deteleFetch } = useAxios<any, any>()
+
+  const handleDeleteTask = useCallback(async (task: ITask) => {
+    await deteleFetch({
+      method: "DELETE",
+      url: `/tasks/${task.id}`,
+      headers: {
+        accept: "*/*",
+      },
+    })
+    listTasks()
   }, [])
 
   const handleCreateTask = async () => {
@@ -55,11 +66,11 @@ export const Tasks = (props: TasksProps) => {
   }
 
   useEffect(() => {
-    console.log(e, 'aqui')
+    console.log(e, "aqui")
     if (e?.response.data.message) {
       toast.contextValue.open(`${e.response.data.message}`)
     }
-  },[e])
+  }, [e])
 
   const handleTaskForm = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, inputName: string) => {
     const value = event.target.value
@@ -75,22 +86,19 @@ export const Tasks = (props: TasksProps) => {
     listTasks()
   }, [])
 
-  if (loading) {
-    return <Wrapper>CARREGANDO</Wrapper>
-  }
-
   if (error) {
     return <Wrapper>ERROR: {error.response.data.message}</Wrapper>
   }
 
   return (
     <Wrapper>
+      {loading && <Spinner />}
       <HeaderLogged leftItem={<FiMenu onClick={() => setSidebar(!sidebar)} style={{ cursor: "pointer" }} color="#cecece" />} middleItem={<H1 style={{ fontSize: "2rem", color: "#cecece", fontWeight: "normal" }}>Tarefas</H1>} rightItem={<Avatar />} />
       <Navbar sidebar={sidebar} setSidebar={setSidebar} />
       <Input icon={<FiSearch color="#cecece" />} stylesWrapper={{ margin: "2rem 0 " }} />
       <TasksCardContainer>
         {response?.data.map((task) => (
-          <CardTask task={task} key={`${task.updated_at}`} />
+          <CardTask task={task} key={`${task.updated_at}`} deleteTask={handleDeleteTask} />
         ))}
       </TasksCardContainer>
 
@@ -100,7 +108,7 @@ export const Tasks = (props: TasksProps) => {
           <P style={{ fontWeight: "bold", fontSize: "2rem" }}>Criar Tarefa</P>
           <Input label={"Tarefa"} stylesLabel={{ fontSize: "1.8rem" }} stylesWrapper={{ width: "90%", margin: "1rem auto" }} onChange={(event) => handleTaskForm(event, "title")} />
           <TextArea label="Descrição" stylesLabel={{ fontSize: "1.8rem" }} stylesWrapper={{ width: "90%", margin: "1rem auto" }} onChange={(event) => handleTaskForm(event, "description")} />
-          <Button styledType="submit" onClick={handleCreateTask}>
+          <Button styledType="submit" onClick={handleCreateTask} style={{ margin: "0 auto", width: "50%", marginTop: "1.6rem" }}>
             Criar
           </Button>
         </Modal>

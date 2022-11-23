@@ -1,20 +1,41 @@
-import React from "react"
+import React, { useCallback } from "react"
 import styled from "styled-components"
 import { ITask } from "../../interfaces/Tasks/ITask"
 import { H2 } from "../Typography/H2/H2"
+import { FiTrash2, FiEdit } from "react-icons/fi"
+import { useAxios } from "../../hooks/Axios/useAxios"
 
 type CardTaskProps = {
-  task?: ITask
+  task: ITask
+  deleteTask?: (task: ITask) => void
+  canEdit?: boolean
 }
 
-export const CardTask = ({ task }: CardTaskProps) => {
+export const CardTask = ({ task, deleteTask }: CardTaskProps) => {
+ 
+
+  const handleDeleteTask = useCallback(async (task: ITask) => {
+    deleteTask && deleteTask(task)
+  }, [])
+
   return (
     <Wrapper>
-      <Input type={"checkbox"} />
-      <TaskInfo>
-        <H2 style={{ fontWeight: "regular" }}>{task?.title}</H2>
-        <H2 style={{ color: "#afafaf", fontWeight: "regular" }}>{task?.description}</H2>
-      </TaskInfo>
+      <div className="info-input">
+        <Input type={"checkbox"} />
+        <TaskInfo>
+          <H2 style={{ fontWeight: "regular" }}>{task?.title}</H2>
+          <H2 style={{ color: "#afafaf", fontWeight: "regular" }}>{task?.description}</H2>
+        </TaskInfo>
+      </div>
+
+      <TaskOptions>
+        <div>
+          <FiEdit color="rgb(206, 206, 206)" />
+        </div>
+        <div onClick={() => handleDeleteTask(task)}>
+          <FiTrash2 color="rgb(206, 206, 206)" />
+        </div>
+      </TaskOptions>
     </Wrapper>
   )
 }
@@ -22,16 +43,40 @@ export const CardTask = ({ task }: CardTaskProps) => {
 export const Wrapper = styled.div`
   background-color: #363636;
   display: flex;
-  gap: 1.2rem;
   padding: 1.2rem;
   border-radius: 0.4rem;
   align-items: center;
+  justify-content: space-between;
+
+  .info-input {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
 `
 
 export const TaskInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+`
+
+export const TaskOptions = styled.div`
+  display: flex;
+  width: 40%;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  > div {
+    cursor: pointer;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    background-color: #121212;
+  }
+  svg {
+    height: 2.4rem;
+    width: 2.4rem;
+  }
 `
 
 export const Input = styled.input`

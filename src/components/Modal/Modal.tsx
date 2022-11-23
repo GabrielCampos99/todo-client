@@ -28,6 +28,11 @@ export const ModalContainer = styled.div<Pick<ModalProps, "isOpen">>`
     color: #e0e0e0;
     font-size: 1.6rem;
     background-color: #363636;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 80%;
+    max-width: 50rem;
   `}
 `
 
