@@ -13,16 +13,12 @@ export type InputProps = {
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const Input = ({ label, stylesWrapper, icon, stylesLabel, error, ...props }: InputProps) => {
-  const [inputValue, setInputValue] = useState<string>()
-
-
-  
   return (
     <S.Wrapper style={stylesWrapper}>
       {label && <Label children={label} stylesLabel={stylesLabel} />}
       <S.Input error={error}>
         {icon && icon}
-        <input {...props} value={inputValue} />
+        <input {...props} />
       </S.Input>
       {error && <P style={{ color: "#ff4949" }}>Opss... Algo de errado por aqui</P>}
     </S.Wrapper>

@@ -1,33 +1,37 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { CardTask } from "../../components/Card/Card.task"
+import { CardTask } from "../../../components/Card/Card.task"
 import { FiMenu, FiSearch } from "react-icons/fi"
-import { HeaderLogged } from "../../components/Header/Header.logged"
-import { useAxios } from "../../hooks/Axios/useAxios"
-import { ITask, ITaskResponse } from "../../interfaces/Tasks/ITask"
-import { H1 } from "../../components/Typography/H1/H1"
-import { Avatar } from "../../components/Avatar/Avatar"
-import { Input } from "../../components/Input/Input"
-import { Navbar } from "../../components/Navbar/Navbar"
-import { ErrorResponse } from "../../Context/AuthContext"
-import ButtonAdd from "../../components/ButtonAdd/ButtonAdd"
-import { Modal } from "../../components/Modal/Modal"
-import { P } from "../../components/Typography/P/P"
-import { TextArea } from "../../components/TextArea/TextArea"
-import { ITaskForm } from "../../interfaces/Tasks/ITaskForm"
-import { Button } from "../../components/Button/Button"
-import { useToast, TToastContext } from "../../Context/ToastContext"
-import { Spinner } from "../../components/Spinner/Spinner"
+import { HeaderLogged } from "../../../components/Header/Header.logged"
+import { useAxios } from "../../../hooks/Axios/useAxios"
+import { ITask, ITaskResponse } from "../../../interfaces/Tasks/ITask"
+import { H1 } from "../../../components/Typography/H1/H1"
+import { Avatar } from "../../../components/Avatar/Avatar"
+import { Input } from "../../../components/Input/Input"
+import { Navbar } from "../../../components/Navbar/Navbar"
+import { ErrorResponse } from "../../../Context/AuthContext"
+import ButtonAdd from "../../../components/ButtonAdd/ButtonAdd"
+import { Modal } from "../../../components/Modal/Modal"
+import { P } from "../../../components/Typography/P/P"
+import { TextArea } from "../../../components/TextArea/TextArea"
+import { ITaskForm } from "../../../interfaces/Tasks/ITaskForm"
+import { Button } from "../../../components/Button/Button"
+import { useToast, TToastContext } from "../../../Context/ToastContext"
+import { Spinner } from "../../../components/Spinner/Spinner"
+import { routesPath } from "../../../constants/routes"
 
 type TasksProps = {}
 
 export const Tasks = (props: TasksProps) => {
+  const { error: deleteError, loading: deleteLoading, response: deleteResponse, fetchData: deteleFetch } = useAxios<any, ErrorResponse>()
+  const { error: createError, loading: createLoading, response: createResponse, fetchData: createFetch } = useAxios<any, ErrorResponse>()
   const { error, loading, response, fetchData } = useAxios<ITaskResponse, ErrorResponse>()
-  const { error: e, loading: l, response: r, fetchData: p } = useAxios<any, any>()
   const toast = useToast() as TToastContext
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [sidebar, setSidebar] = useState<boolean>(false)
+  const navigate = useNavigate()
   const taskFormRef = useRef<ITaskForm>({})
   const listTasks = useCallback(async () => {
     await fetchData({
@@ -38,8 +42,6 @@ export const Tasks = (props: TasksProps) => {
       },
     })
   }, [])
-
-  const { error: deleteError, loading: deleteLoading, response: deleteResponse, fetchData: deteleFetch } = useAxios<any, any>()
 
   const handleDeleteTask = useCallback(async (task: ITask) => {
     await deteleFetch({
@@ -53,7 +55,7 @@ export const Tasks = (props: TasksProps) => {
   }, [])
 
   const handleCreateTask = async () => {
-    await p({
+    await createFetch({
       method: "POST",
       url: "/tasks",
       headers: {
@@ -66,15 +68,20 @@ export const Tasks = (props: TasksProps) => {
   }
 
   useEffect(() => {
-    console.log(e, "aqui")
-    if (e?.response.data.message) {
-      toast.contextValue.open(`${e.response.data.message}`)
-    }
-  }, [e])
+    if (createError?.response.data.message) return toast.contextValue.open(`${createError.response.data.message}`)
+    if (deleteError?.response.data.message) return toast.contextValue.open(`${deleteError.response.data.message}`)
+    if (error?.response.data.message) return toast.contextValue.open(`${error.response.data.message}`)
+  }, [createError, deleteError, error])
 
   const handleTaskForm = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, inputName: string) => {
     const value = event.target.value
     taskFormRef.current[inputName] = value
+  }
+
+  const handleEditTask = (task: ITask) => {
+    console.log('clicado')
+    console.log(`${routesPath.taskEdit}/${task.id}`)
+    return navigate(`${routesPath.taskEdit}/${task.id}`)
   }
 
   const closeModal = () => {
@@ -87,18 +94,17 @@ export const Tasks = (props: TasksProps) => {
   }, [])
 
   if (error) {
-    return <Wrapper>ERROR: {error.response.data.message}</Wrapper>
+    return <WrapperTask>ERROR: {error.response.data.message}</WrapperTask>
   }
-
   return (
-    <Wrapper>
-      {loading && <Spinner />}
+    <WrapperTask>
+      {(loading || createLoading || deleteLoading) && <Spinner />}
       <HeaderLogged leftItem={<FiMenu onClick={() => setSidebar(!sidebar)} style={{ cursor: "pointer" }} color="#cecece" />} middleItem={<H1 style={{ fontSize: "2rem", color: "#cecece", fontWeight: "normal" }}>Tarefas</H1>} rightItem={<Avatar />} />
       <Navbar sidebar={sidebar} setSidebar={setSidebar} />
       <Input icon={<FiSearch color="#cecece" />} stylesWrapper={{ margin: "2rem 0 " }} />
       <TasksCardContainer>
         {response?.data.map((task) => (
-          <CardTask task={task} key={`${task.updated_at}`} deleteTask={handleDeleteTask} />
+          <CardTask task={task} key={`${task.updated_at}`} deleteTask={handleDeleteTask} editTask={handleEditTask} />
         ))}
       </TasksCardContainer>
 
@@ -113,11 +119,11 @@ export const Tasks = (props: TasksProps) => {
           </Button>
         </Modal>
       )}
-    </Wrapper>
+    </WrapperTask>
   )
 }
 
-export const Wrapper = styled.div`
+export const WrapperTask = styled.div`
   padding: 1.4rem 2.4rem;
   display: flex;
   flex-direction: column;

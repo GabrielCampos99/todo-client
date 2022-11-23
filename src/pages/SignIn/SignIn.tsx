@@ -49,7 +49,7 @@ export const SignIn = (props: Props) => {
   }
 
   return (
-    <Wrapper>
+    <FormWrapper>
       <Header path="/" />
       <H1 style={{ marginTop: "4rem" }}>Login</H1>
       <Input placeholder="Digite seu e-mail" label="E-mail" type={"email"} stylesWrapper={{ marginTop: "5.4rem" }} onChange={(event) => handleForm(event, "email")} error={error.find((error) => error === "email")} />
@@ -63,11 +63,11 @@ export const SignIn = (props: Props) => {
       <h5>
         Não tem uma conta?<Link to={"/sign-up"}> Registre-se</Link>
       </h5>
-    </Wrapper>
+    </FormWrapper>
   )
 }
 
-export const Wrapper = styled.div`
+export const FormWrapper = styled.div`
   padding: 1.4rem 2.4rem;
   display: flex;
   flex-direction: column;

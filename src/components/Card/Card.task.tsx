@@ -6,16 +6,18 @@ import { FiTrash2, FiEdit } from "react-icons/fi"
 import { useAxios } from "../../hooks/Axios/useAxios"
 
 type CardTaskProps = {
-  task: ITask
   deleteTask?: (task: ITask) => void
-  canEdit?: boolean
+  editTask?: (task: ITask) => void
+  task: ITask
 }
 
-export const CardTask = ({ task, deleteTask }: CardTaskProps) => {
- 
-
+export const CardTask = ({ task, deleteTask, editTask }: CardTaskProps) => {
   const handleDeleteTask = useCallback(async (task: ITask) => {
     deleteTask && deleteTask(task)
+  }, [])
+
+  const handleEditTask = useCallback(async (task: ITask) => {
+    editTask && editTask(task)
   }, [])
 
   return (
@@ -29,12 +31,17 @@ export const CardTask = ({ task, deleteTask }: CardTaskProps) => {
       </div>
 
       <TaskOptions>
-        <div>
-          <FiEdit color="rgb(206, 206, 206)" />
-        </div>
-        <div onClick={() => handleDeleteTask(task)}>
-          <FiTrash2 color="rgb(206, 206, 206)" />
-        </div>
+        {editTask && (
+          <div onClick={() => handleEditTask(task)}>
+            <FiEdit color="rgb(206, 206, 206)" />
+          </div>
+        )}
+
+        {deleteTask && (
+          <div onClick={() => handleDeleteTask(task)}>
+            <FiTrash2 color="rgb(206, 206, 206)" />
+          </div>
+        )}
       </TaskOptions>
     </Wrapper>
   )
