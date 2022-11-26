@@ -20,7 +20,9 @@ const settings: SliderSettings = {
 }
 
 export const Horizontal = () => (
-  <SliderSlick settings={settings}>
+  <SliderSlick settings={settings} index={{
+    activeSlide2: 0
+  }}>
     <SliderItem image={<Image1 />} title="titulo1" subtitle="subtitulo" />
   </SliderSlick>
 )

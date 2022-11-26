@@ -3,7 +3,7 @@ import * as S from "./styles"
 
 export type ButtonTypesStyle = "cancel" | "submit"
 
-type ButtonTypes = AnchorHTMLAttributes<HTMLAnchorElement> | ButtonHTMLAttributes<HTMLButtonElement>
+type ButtonTypes = ButtonHTMLAttributes<HTMLElement>
 
 export type ButtonProps = {
   styledType: "cancel" | "submit"
