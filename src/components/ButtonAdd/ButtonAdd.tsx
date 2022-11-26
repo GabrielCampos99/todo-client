@@ -16,17 +16,15 @@ export default ButtonAdd
 
 export const Button = styled.button<ButtonTypes>`
   ${({}) => css`
-  cursor: pointer;
+    cursor: pointer;
+    margin: 0 auto;
     background-color: #8687e7;
     border: none;
     outline: none;
     border-radius: 100%;
     width: 6.4rem;
     height: 6.4rem;
-    position: absolute;
-    bottom: 6.4rem;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 4.4rem;
 
     svg {
       height: 2.4rem;

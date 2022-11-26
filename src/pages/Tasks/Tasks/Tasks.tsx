@@ -20,6 +20,7 @@ import { Button } from "../../../components/Button/Button"
 import { useToast, TToastContext } from "../../../Context/ToastContext"
 import { Spinner } from "../../../components/Spinner/Spinner"
 import { routesPath } from "../../../constants/routes"
+import Pagination from "../../../components/Pagination/Pagination"
 
 type TasksProps = {}
 
@@ -31,17 +32,23 @@ export const Tasks = (props: TasksProps) => {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [sidebar, setSidebar] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const navigate = useNavigate()
   const taskFormRef = useRef<ITaskForm>({})
-  const listTasks = useCallback(async () => {
-    await fetchData({
-      method: "GET",
-      url: "/tasks",
-      headers: {
-        accept: "*/*",
-      },
-    })
-  }, [])
+
+  const listTasks = useCallback(
+    async (currentPage) => {
+      console.log(currentPage, "currentPage")
+      await fetchData({
+        method: "GET",
+        url: `/tasks?page=${currentPage}`,
+        headers: {
+          accept: "*/*",
+        },
+      })
+    },
+    [currentPage]
+  )
 
   const handleDeleteTask = useCallback(async (task: ITask) => {
     await deteleFetch({
@@ -51,7 +58,7 @@ export const Tasks = (props: TasksProps) => {
         accept: "*/*",
       },
     })
-    listTasks()
+    listTasks(currentPage)
   }, [])
 
   const handleCreateTask = async () => {
@@ -63,7 +70,7 @@ export const Tasks = (props: TasksProps) => {
       },
       data: taskFormRef.current,
     })
-    listTasks()
+    listTasks(currentPage)
     closeModal()
   }
 
@@ -79,7 +86,7 @@ export const Tasks = (props: TasksProps) => {
   }
 
   const handleEditTask = (task: ITask) => {
-    console.log('clicado')
+    console.log("clicado")
     console.log(`${routesPath.taskEdit}/${task.id}`)
     return navigate(`${routesPath.taskEdit}/${task.id}`)
   }
@@ -90,8 +97,8 @@ export const Tasks = (props: TasksProps) => {
   }
 
   useEffect(() => {
-    listTasks()
-  }, [])
+    listTasks(currentPage)
+  }, [currentPage])
 
   if (error) {
     return <WrapperTask>ERROR: {error.response.data.message}</WrapperTask>
@@ -107,8 +114,9 @@ export const Tasks = (props: TasksProps) => {
           <CardTask task={task} key={`${task.updated_at}`} deleteTask={handleDeleteTask} editTask={handleEditTask} />
         ))}
       </TasksCardContainer>
+      {response && <Pagination setCurrentPage={setCurrentPage} pages={response.lastPage} style={{ marginTop: "2rem" }} />}
 
-      <ButtonAdd onClick={() => setIsModalOpen(true)} />
+      <ButtonAdd onClick={() => setIsModalOpen(true)} style={{ marginTop: "2rem" }} />
       {isModalOpen && (
         <Modal isOpen={isModalOpen} closeModal={closeModal}>
           <P style={{ fontWeight: "bold", fontSize: "2rem" }}>Criar Tarefa</P>
@@ -150,4 +158,6 @@ export const TasksCardContainer = styled.div`
   flex-direction: column;
   gap: 1.6rem;
   margin-top: 1.6rem;
+  height: 56vh;
+  overflow: auto;
 `
