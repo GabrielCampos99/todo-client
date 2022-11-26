@@ -3,15 +3,15 @@ import styled from "styled-components"
 import { ITask } from "../../interfaces/Tasks/ITask"
 import { H2 } from "../Typography/H2/H2"
 import { FiTrash2, FiEdit } from "react-icons/fi"
-import { useAxios } from "../../hooks/Axios/useAxios"
 
 type CardTaskProps = {
   deleteTask?: (task: ITask) => void
   editTask?: (task: ITask) => void
+  completeTask?: (task: ITask) => void
   task: ITask
 }
 
-export const CardTask = ({ task, deleteTask, editTask }: CardTaskProps) => {
+export const CardTask = ({ task, deleteTask, editTask, completeTask }: CardTaskProps) => {
   const handleDeleteTask = useCallback(async (task: ITask) => {
     deleteTask && deleteTask(task)
   }, [])
@@ -20,10 +20,14 @@ export const CardTask = ({ task, deleteTask, editTask }: CardTaskProps) => {
     editTask && editTask(task)
   }, [])
 
+  const handleCompleteTask = useCallback(async (task: ITask) => {
+    completeTask && completeTask(task)
+  }, [])
+
   return (
     <Wrapper>
       <div className="info-input">
-        <Input type={"checkbox"} />
+        <Input type={"checkbox"} defaultChecked={!!task.completed} onClick={() => handleCompleteTask(task)} />
         <TaskInfo>
           <H2 style={{ fontWeight: "regular" }}>{task?.title}</H2>
           <H2 style={{ color: "#afafaf", fontWeight: "regular" }}>{task?.description}</H2>

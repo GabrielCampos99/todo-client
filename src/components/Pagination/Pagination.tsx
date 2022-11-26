@@ -53,7 +53,7 @@ function Pagination({ pages = 10, setCurrentPage, ...rest }: PaginationProps) {
       <div {...rest} className={"pagination-wrapper"}>
         {arrOfCurrButtons.map((item, index) => {
           return (
-            <a href="#" key={index} className={`${currentButton === item ? "active" : ""}`} onClick={() => setCurrentButton(item)}>
+            <a key={index} className={`${currentButton === item ? "active" : ""}`} onClick={() => setCurrentButton(item)}>
               {item}
             </a>
           )

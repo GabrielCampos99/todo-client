@@ -27,6 +27,7 @@ type TasksProps = {}
 export const Tasks = (props: TasksProps) => {
   const { error: deleteError, loading: deleteLoading, response: deleteResponse, fetchData: deteleFetch } = useAxios<any, ErrorResponse>()
   const { error: createError, loading: createLoading, response: createResponse, fetchData: createFetch } = useAxios<any, ErrorResponse>()
+  const { error: completeError, loading: completeLoading, response: completeResponse, fetchData: completeFetch } = useAxios<any, ErrorResponse>()
   const { error, loading, response, fetchData } = useAxios<ITaskResponse, ErrorResponse>()
   const toast = useToast() as TToastContext
 
@@ -39,7 +40,6 @@ export const Tasks = (props: TasksProps) => {
 
   const listTasks = useCallback(
     async (currentPage, search?: string) => {
-      console.log(currentPage, "currentPage")
       await fetchData({
         method: "GET",
         url: `/tasks?page=${currentPage}&title=${search}`,
@@ -59,8 +59,19 @@ export const Tasks = (props: TasksProps) => {
         accept: "*/*",
       },
     })
-    listTasks(currentPage)
-  }, [])
+    listTasks(currentPage, search)
+  }, [currentPage, search])
+
+  const handleCompleteTask = useCallback(async (task: ITask) => {
+    await completeFetch({
+      method: "PUT",
+      url: `/tasks/toggle/${task.id}`,
+      headers: {
+        accept: "*/*",
+      },
+    })
+    listTasks(currentPage, search)
+  }, [currentPage, search])
 
   const handleCreateTask = async () => {
     await createFetch({
@@ -71,9 +82,13 @@ export const Tasks = (props: TasksProps) => {
       },
       data: taskFormRef.current,
     })
-    listTasks(currentPage)
+    listTasks(currentPage, search)
     closeModal()
   }
+
+  useEffect(() => {
+    console.log(currentPage, 'currentPage')
+  },[currentPage])
 
   useEffect(() => {
     if (createError?.response.data.message) return toast.contextValue.open(`${createError.response.data.message}`)
@@ -112,10 +127,10 @@ export const Tasks = (props: TasksProps) => {
       <Input icon={<FiSearch color="#cecece" />} stylesWrapper={{ margin: "2rem 0 " }} onChange={(event) => setSearch(event.target.value)} />
       <TasksCardContainer>
         {response?.data.map((task) => (
-          <CardTask task={task} key={`${task.updated_at}`} deleteTask={handleDeleteTask} editTask={handleEditTask} />
+          <CardTask task={task} key={`${task.updated_at}`} deleteTask={handleDeleteTask} editTask={handleEditTask} completeTask={handleCompleteTask} />
         ))}
       </TasksCardContainer>
-      {response && <Pagination setCurrentPage={setCurrentPage} pages={response.lastPage} style={{ marginTop: "2rem" }} />}
+      {response?.lastPage && <Pagination setCurrentPage={setCurrentPage} pages={response.lastPage} style={{ marginTop: "2rem" }} />}
 
       <ButtonAdd onClick={() => setIsModalOpen(true)} style={{ marginTop: "2rem" }} />
       {isModalOpen && (
