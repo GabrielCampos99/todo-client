@@ -31,23 +31,24 @@ export const Tasks = (props: TasksProps) => {
   const toast = useToast() as TToastContext
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [sidebar, setSidebar] = useState<boolean>(false)
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [sidebar, setSidebar] = useState<boolean>(false)
+  const [search, setSearch] = useState<string>("")
   const navigate = useNavigate()
   const taskFormRef = useRef<ITaskForm>({})
 
   const listTasks = useCallback(
-    async (currentPage) => {
+    async (currentPage, search?: string) => {
       console.log(currentPage, "currentPage")
       await fetchData({
         method: "GET",
-        url: `/tasks?page=${currentPage}`,
+        url: `/tasks?page=${currentPage}&title=${search}`,
         headers: {
           accept: "*/*",
         },
       })
     },
-    [currentPage]
+    [currentPage, search]
   )
 
   const handleDeleteTask = useCallback(async (task: ITask) => {
@@ -97,8 +98,8 @@ export const Tasks = (props: TasksProps) => {
   }
 
   useEffect(() => {
-    listTasks(currentPage)
-  }, [currentPage])
+    listTasks(currentPage, search)
+  }, [currentPage, search])
 
   if (error) {
     return <WrapperTask>ERROR: {error.response.data.message}</WrapperTask>
@@ -108,7 +109,7 @@ export const Tasks = (props: TasksProps) => {
       {(loading || createLoading || deleteLoading) && <Spinner />}
       <HeaderLogged leftItem={<FiMenu onClick={() => setSidebar(!sidebar)} style={{ cursor: "pointer" }} color="#cecece" />} middleItem={<H1 style={{ fontSize: "2rem", color: "#cecece", fontWeight: "normal" }}>Tarefas</H1>} rightItem={<Avatar />} />
       <Navbar sidebar={sidebar} setSidebar={setSidebar} />
-      <Input icon={<FiSearch color="#cecece" />} stylesWrapper={{ margin: "2rem 0 " }} />
+      <Input icon={<FiSearch color="#cecece" />} stylesWrapper={{ margin: "2rem 0 " }} onChange={(event) => setSearch(event.target.value)} />
       <TasksCardContainer>
         {response?.data.map((task) => (
           <CardTask task={task} key={`${task.updated_at}`} deleteTask={handleDeleteTask} editTask={handleEditTask} />
