@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useState } from "react"
 
-axios.defaults.baseURL = "http://localhost:3333/"
+axios.defaults.baseURL = import.meta.env.VITE_API
 
 export function useAxios<T, E>() {
   const [response, setResponse] = useState<T>()
