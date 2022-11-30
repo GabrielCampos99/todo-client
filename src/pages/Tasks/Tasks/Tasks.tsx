@@ -18,7 +18,6 @@ import { Modal } from "../../../components/Modal/Modal"
 import { P } from "../../../components/Typography/P/P"
 
 import { useToast, TToastContext } from "../../../context/ToastContext"
-import { ErrorResponse } from "../../../context/AuthContext"
 
 import { ITask, ITaskResponse } from "../../../interfaces/Tasks/ITask"
 import { ITaskForm } from "../../../interfaces/Tasks/ITaskForm"
