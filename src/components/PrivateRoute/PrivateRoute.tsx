@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { Navigate, Route, RouteProps } from "react-router-dom"
 import { routesPath } from "../../constants/routes"
-import { AuthContext, TAuthContext } from "../../context/AuthContext"
+import { AuthContext, TAuthContext } from "../../Context/AuthContext"
 type PrivateRouteProps = RouteProps
 
 export const PrivateRoute = (props: PrivateRouteProps) => {

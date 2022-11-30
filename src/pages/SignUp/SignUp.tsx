@@ -6,7 +6,7 @@ import { Header } from "../../components/Header/Header.form"
 import { Input } from "../../components/Input/Input"
 import { H1 } from "../../components/Typography/H1/H1"
 import { routesPath } from "../../constants/routes"
-import { TToastContext, useToast } from "../../context/ToastContext"
+import { TToastContext, useToast } from "../../Context/ToastContext"
 import { useAxios } from "../../hooks/Axios/useAxios"
 
 type Props = {}

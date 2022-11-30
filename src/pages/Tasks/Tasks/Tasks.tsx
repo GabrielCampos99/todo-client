@@ -26,7 +26,7 @@ import { ListTasksService } from "../../../services/task/ListTasksService"
 import { DeleteTaskService } from "../../../services/task/DeleteTaskService"
 import { ToggleCompleteTaskService } from "../../../services/task/ToggleCompleteTaskService"
 import { CreateTaskService } from "../../../services/task/CreateTaskService"
-import { useToast, TToastContext } from "../../../context/ToastContext"
+import { useToast, TToastContext } from "../../../Context/ToastContext"
 
 type TasksProps = {}
 
