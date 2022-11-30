@@ -9,18 +9,18 @@ Axios
 
 # Instructions
 
-To use this app, you must need: 
-Node (16x)
-Yarn or NPM
-And a device to run everthing 😁
+To use this app, you must need: <br/>
+Node (16x)<br/>
+Yarn or NPM<br/>
+And a device to run everthing 😁<br/>
 
-First:
-Run this script in app root folder : "yarn" to install all deps
-Nice, if everything looks good, run "yarn dev" to run the app
+First:<br/>
+Run this script in app root folder : "yarn" to install all deps<br/>
+Nice, if everything looks good, run "yarn dev" to run the app<br/>
 
-**Resume**
-1°: yarn
-2°: yarn dev 
+**Resume**<br/>
+1°: yarn<br/>
+2°: yarn dev <br/>
 
 **IMPORTANT: THIS CLIENT NEED A BACKEND SERVICE**
 This is the backend: https://github.com/GabrielCampos99/todo-server
