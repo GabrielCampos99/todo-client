@@ -24,7 +24,7 @@ import { ITask, ITaskResponse } from "../../../interfaces/Tasks/ITask"
 import { ITaskForm } from "../../../interfaces/Tasks/ITaskForm"
 
 import { routesPath } from "../../../constants/routes"
-import { ListTasksService } from "../../../services/task/GetTaskService"
+import { ListTasksService } from "../../../services/task/ListTasksService"
 import { DeleteTaskService } from "../../../services/task/DeleteTaskService"
 import { ToggleCompleteTaskService } from "../../../services/task/ToggleCompleteTaskService"
 import { CreateTaskService } from "../../../services/task/CreateTaskService"
