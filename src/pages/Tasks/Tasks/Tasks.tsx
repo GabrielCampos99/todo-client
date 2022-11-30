@@ -23,8 +23,6 @@ import { ErrorResponse } from "../../../Context/AuthContext"
 import { ITask, ITaskResponse } from "../../../interfaces/Tasks/ITask"
 import { ITaskForm } from "../../../interfaces/Tasks/ITaskForm"
 
-import { useAxios } from "../../../hooks/Axios/useAxios"
-
 import { routesPath } from "../../../constants/routes"
 import { ListTasksService } from "../../../services/task/GetTaskService"
 import { DeleteTaskService } from "../../../services/task/DeleteTaskService"
