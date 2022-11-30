@@ -27,14 +27,13 @@ import { useAxios } from "../../../hooks/Axios/useAxios"
 
 import { routesPath } from "../../../constants/routes"
 import { ListTasksService } from "../../../services/task/GetTaskService"
+import { DeleteTaskService } from "../../../services/task/DeleteTaskService"
+import { ToggleCompleteTaskService } from "../../../services/task/ToggleCompleteTaskService"
+import { CreateTaskService } from "../../../services/task/CreateTaskService"
 
 type TasksProps = {}
 
 export const Tasks = (props: TasksProps) => {
-  const { error: deleteError, loading: deleteLoading, response: deleteResponse, fetchData: deteleFetch } = useAxios<any, ErrorResponse>()
-  const { error: createError, loading: createLoading, response: createResponse, fetchData: createFetch } = useAxios<any, ErrorResponse>()
-  const { error: completeError, loading: completeLoading, response: completeResponse, fetchData: completeFetch } = useAxios<any, ErrorResponse>()
-  const { error, loading, response, fetchData } = useAxios<ITaskResponse, ErrorResponse>()
   const toast = useToast() as TToastContext
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -59,26 +58,22 @@ export const Tasks = (props: TasksProps) => {
 
   const listTasksWithFilter = useCallback(
     async (currentPage, search?: string) => {
-      await fetchData({
-        method: "GET",
-        url: `/tasks?page=${currentPage}&title=${search}`,
-        headers: {
-          accept: "*/*",
-        },
-      })
+      setIsLoading(true)
+      const res = await ListTasksService({ page: currentPage, title: search })
+      setIsLoading(false)
+      if (!res) return toast.contextValue.open(`Erro ao listar Tasks`)
+      setTaskResponse(res.data)
     },
     [currentPage, search]
   )
 
   const handleDeleteTask = useCallback(
     async (task: ITask) => {
-      await deteleFetch({
-        method: "DELETE",
-        url: `/tasks/${task.id}`,
-        headers: {
-          accept: "*/*",
-        },
-      })
+      setIsLoading(true)
+      const res = await DeleteTaskService(+task.id)
+      setIsLoading(false)
+      if (!res) return toast.contextValue.open(`Erro ao deletar Task`)
+      toast.contextValue.open(`Task deletada com sucesso!`)
       listTasks(currentPage)
     },
     [currentPage]
@@ -86,40 +81,28 @@ export const Tasks = (props: TasksProps) => {
 
   const handleCompleteTask = useCallback(
     async (task: ITask) => {
-      await completeFetch({
-        method: "PUT",
-        url: `/tasks/toggle/${task.id}`,
-        headers: {
-          accept: "*/*",
-        },
-      })
+      setIsLoading(true)
+      const res = await ToggleCompleteTaskService(+task.id)
+      setIsLoading(false)
+      if (!res) return toast.contextValue.open(`Erro ao completar uma Task`)
+      listTasks(currentPage)
+      toast.contextValue.open(`Task Completada com sucesso!`)
       listTasks(currentPage)
     },
     [currentPage]
   )
 
   const handleCreateTask = async () => {
-    await createFetch({
-      method: "POST",
-      url: "/tasks",
-      headers: {
-        accept: "*/*",
-      },
-      data: taskFormRef.current,
-    })
+    if (!taskFormRef.current.title) return toast.contextValue.open(`Insiria ao menos um titulo.`)
+    setIsLoading(true)
+    const res = await CreateTaskService(taskFormRef.current)
+    setIsLoading(false)
+    if (!res) toast.contextValue.open(`Erro ao Criar uma Task 🙁`)
+    listTasks(currentPage)
+    if (res) toast.contextValue.open(`Task Criada com sucesso!`)
     listTasks(currentPage)
     closeModal()
   }
-
-  useEffect(() => {
-    console.log(currentPage, "currentPage")
-  }, [currentPage])
-
-  useEffect(() => {
-    if (createError?.response.data.message) return toast.contextValue.open(`${createError.response.data.message}`)
-    if (deleteError?.response.data.message) return toast.contextValue.open(`${deleteError.response.data.message}`)
-    if (error?.response.data.message) return toast.contextValue.open(`${error.response.data.message}`)
-  }, [createError, deleteError, error])
 
   const handleTaskForm = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, inputName: string) => {
     const value = event.target.value
@@ -140,33 +123,13 @@ export const Tasks = (props: TasksProps) => {
     listTasksWithFilter(currentPage, search)
   }
 
-  /* useEffect(() => {
-    const keyDownHandler = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
-        event.preventDefault()
-
-        handleSearchEnter()
-      }
-    }
-
-    document.addEventListener("keydown", keyDownHandler)
-
-    return () => {
-      document.removeEventListener("keydown", keyDownHandler)
-    }
-  }, [search])
-
-   */
   useEffect(() => {
     listTasks(currentPage)
   }, [currentPage])
 
-  if (error) {
-    return <WrapperTask>ERROR: {error.response.data.message}</WrapperTask>
-  }
   return (
     <WrapperTask>
-      {(loading || createLoading || deleteLoading || isLoading) && <Spinner />}
+      {isLoading && <Spinner />}
       <HeaderLogged leftItem={<FiMenu onClick={() => setSidebar(!sidebar)} style={{ cursor: "pointer" }} color="#cecece" />} middleItem={<H1 style={{ fontSize: "2rem", color: "#cecece", fontWeight: "normal" }}>Tarefas</H1>} rightItem={<Avatar />} />
       <Navbar sidebar={sidebar} setSidebar={setSidebar} />
       <Input icon={<FiSearch color="#cecece" onClick={handleSearchEnter} style={{ cursor: "pointer" }} />} stylesWrapper={{ margin: "2rem 0 " }} onChange={(event) => setSearch(event.target.value)} />
