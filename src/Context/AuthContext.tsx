@@ -1,11 +1,11 @@
 import axios from "axios"
 import * as React from "react"
+import jwt_decode from "jwt-decode"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { routesPath } from "../constants/routes"
-import { useAxios } from "../hooks/Axios/useAxios"
 import { TToastContext, useToast } from "./ToastContext"
-import jwt_decode from "jwt-decode"
+import { CreateSessionService } from "../services/signIn/CreateSessionService"
 
 type Props = {
   children?: React.ReactNode
@@ -26,6 +26,7 @@ export type ErrorResponse = {
 
 export type TAuthContext = {
   authenticated: boolean
+  isLoading: boolean
   setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
   handleLogin: (obj: any) => void
   handleLogout: () => void
@@ -35,22 +36,19 @@ export const AuthContext = React.createContext<TAuthContext | null>(null)
 
 const AuthProvider: React.FC<Props> = ({ children }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false)
-  const { error, response, fetchData } = useAxios<UserResponse, ErrorResponse>()
-  const [userIsLoading, setUserIsLoading] = useState(true)
+  const [userSession, setUserSession] = useState<UserResponse>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const navigate = useNavigate()
   const toast = useToast() as TToastContext
 
   const handleLogin = async (body: any) => {
     console.log(body, "body")
-    await fetchData({
-      method: "POST",
-      url: "/session",
-      headers: {
-        accept: "*/*",
-      },
-      data: body,
-    })
+    setIsLoading(true)
+    const res = await CreateSessionService(body)
+    setIsLoading(false)
+    if (!res) return toast.contextValue.open(`Erro ao criar sessão`)
+    setUserSession(res.data)
   }
 
   const handleLogout = () => {
@@ -61,12 +59,12 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   }
 
   useEffect(() => {
-    if (!response) return
-    localStorage.setItem("token", JSON.stringify(response.token))
-    axios.defaults.headers.common["Authorization"] = `Bearer ${response.token}`
+    if (!userSession) return
+    localStorage.setItem("token", JSON.stringify(userSession.token))
+    axios.defaults.headers.common["Authorization"] = `Bearer ${userSession.token}`
     navigate(routesPath.tasks)
     setAuthenticated(true)
-  }, [response])
+  }, [userSession])
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -82,20 +80,10 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         setAuthenticated(true)
       }
     }
-    setUserIsLoading(false)
+    setIsLoading(false)
   }, [])
 
-  useEffect(() => {
-    if (error?.response.data.message) {
-      toast.contextValue.open(`${error.response.data.message}`)
-    }
-  }, [error])
-
-  if (userIsLoading) {
-    return <h1>LOADING</h1>
-  }
-
-  return <AuthContext.Provider value={{ handleLogout, authenticated, setAuthenticated, handleLogin }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ handleLogout, authenticated, setAuthenticated, handleLogin, isLoading }}>{children}</AuthContext.Provider>
 }
 
 export default AuthProvider

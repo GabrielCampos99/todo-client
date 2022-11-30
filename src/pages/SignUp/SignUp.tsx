@@ -30,6 +30,7 @@ export const SignUp = (props: Props) => {
   }
 
   const handleSignUp = async (body: any) => {
+
     await fetchData({
       method: "POST",
       url: "/users",

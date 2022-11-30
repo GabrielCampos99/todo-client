@@ -1,10 +1,12 @@
 import React, { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { Button } from "../../components/Button/Button"
-import { Header } from "../../components/Header/Header.form"
+
 import { Input } from "../../components/Input/Input"
 import { H1 } from "../../components/Typography/H1/H1"
+import { Button } from "../../components/Button/Button"
+import { Spinner } from "../../components/Spinner/Spinner"
+import { Header } from "../../components/Header/Header.form"
 
 import { AuthContext, TAuthContext } from "../../Context/AuthContext"
 
@@ -17,7 +19,7 @@ type Props = {}
 export const SignIn = (props: Props) => {
   const loginRef = useRef<LoginRef>({ email: "", password: "" })
   const [error, setError] = useState<string[]>([])
-  const { handleLogin } = React.useContext(AuthContext) as TAuthContext
+  const { handleLogin, isLoading } = React.useContext(AuthContext) as TAuthContext
 
   const handleForm = (event: React.ChangeEvent<HTMLInputElement>, name: "email" | "password") => {
     const value = event.target.value
@@ -41,7 +43,7 @@ export const SignIn = (props: Props) => {
       errors.push("email")
     }
 
-    console.log(errors, 'errrerere')
+    console.log(errors, "errrerere")
 
     if (errors.length > 0) return
 
@@ -51,6 +53,7 @@ export const SignIn = (props: Props) => {
 
   return (
     <FormWrapper>
+      {isLoading && <Spinner />}
       <Header path="/" />
       <H1 style={{ marginTop: "4rem" }}>Login</H1>
       <Input placeholder="Digite seu e-mail" label="E-mail" type={"email"} stylesWrapper={{ marginTop: "5.4rem" }} onChange={(event) => handleForm(event, "email")} error={error.find((error) => error === "email")} />
