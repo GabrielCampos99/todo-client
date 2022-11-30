@@ -39,6 +39,19 @@ export const Tasks = (props: TasksProps) => {
   const taskFormRef = useRef<ITaskForm>({})
 
   const listTasks = useCallback(
+    async (currentPage) => {
+      await fetchData({
+        method: "GET",
+        url: `/tasks?page=${currentPage}`,
+        headers: {
+          accept: "*/*",
+        },
+      })
+    },
+    [currentPage]
+  )
+
+  const listTasksWithFilter = useCallback(
     async (currentPage, search?: string) => {
       await fetchData({
         method: "GET",
@@ -51,27 +64,33 @@ export const Tasks = (props: TasksProps) => {
     [currentPage, search]
   )
 
-  const handleDeleteTask = useCallback(async (task: ITask) => {
-    await deteleFetch({
-      method: "DELETE",
-      url: `/tasks/${task.id}`,
-      headers: {
-        accept: "*/*",
-      },
-    })
-    listTasks(currentPage, search)
-  }, [currentPage, search])
+  const handleDeleteTask = useCallback(
+    async (task: ITask) => {
+      await deteleFetch({
+        method: "DELETE",
+        url: `/tasks/${task.id}`,
+        headers: {
+          accept: "*/*",
+        },
+      })
+      listTasks(currentPage)
+    },
+    [currentPage]
+  )
 
-  const handleCompleteTask = useCallback(async (task: ITask) => {
-    await completeFetch({
-      method: "PUT",
-      url: `/tasks/toggle/${task.id}`,
-      headers: {
-        accept: "*/*",
-      },
-    })
-    listTasks(currentPage, search)
-  }, [currentPage, search])
+  const handleCompleteTask = useCallback(
+    async (task: ITask) => {
+      await completeFetch({
+        method: "PUT",
+        url: `/tasks/toggle/${task.id}`,
+        headers: {
+          accept: "*/*",
+        },
+      })
+      listTasks(currentPage)
+    },
+    [currentPage]
+  )
 
   const handleCreateTask = async () => {
     await createFetch({
@@ -82,13 +101,13 @@ export const Tasks = (props: TasksProps) => {
       },
       data: taskFormRef.current,
     })
-    listTasks(currentPage, search)
+    listTasks(currentPage)
     closeModal()
   }
 
   useEffect(() => {
-    console.log(currentPage, 'currentPage')
-  },[currentPage])
+    console.log(currentPage, "currentPage")
+  }, [currentPage])
 
   useEffect(() => {
     if (createError?.response.data.message) return toast.contextValue.open(`${createError.response.data.message}`)
@@ -111,10 +130,30 @@ export const Tasks = (props: TasksProps) => {
     taskFormRef.current = {}
     setIsModalOpen(false)
   }
+  const handleSearchEnter = () => {
+    listTasksWithFilter(currentPage, search)
+  }
 
+  /* useEffect(() => {
+    const keyDownHandler = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        event.preventDefault()
+
+        handleSearchEnter()
+      }
+    }
+
+    document.addEventListener("keydown", keyDownHandler)
+
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler)
+    }
+  }, [search])
+
+   */
   useEffect(() => {
-    listTasks(currentPage, search)
-  }, [currentPage, search])
+    listTasks(currentPage)
+  }, [currentPage])
 
   if (error) {
     return <WrapperTask>ERROR: {error.response.data.message}</WrapperTask>
@@ -124,7 +163,7 @@ export const Tasks = (props: TasksProps) => {
       {(loading || createLoading || deleteLoading) && <Spinner />}
       <HeaderLogged leftItem={<FiMenu onClick={() => setSidebar(!sidebar)} style={{ cursor: "pointer" }} color="#cecece" />} middleItem={<H1 style={{ fontSize: "2rem", color: "#cecece", fontWeight: "normal" }}>Tarefas</H1>} rightItem={<Avatar />} />
       <Navbar sidebar={sidebar} setSidebar={setSidebar} />
-      <Input icon={<FiSearch color="#cecece" />} stylesWrapper={{ margin: "2rem 0 " }} onChange={(event) => setSearch(event.target.value)} />
+      <Input icon={<FiSearch color="#cecece" onClick={handleSearchEnter} style={{ cursor: "pointer" }} />} stylesWrapper={{ margin: "2rem 0 " }} onChange={(event) => setSearch(event.target.value)} />
       <TasksCardContainer>
         {response?.data.map((task) => (
           <CardTask task={task} key={`${task.updated_at}`} deleteTask={handleDeleteTask} editTask={handleEditTask} completeTask={handleCompleteTask} />
