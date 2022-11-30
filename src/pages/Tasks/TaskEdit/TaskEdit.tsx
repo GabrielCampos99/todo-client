@@ -17,7 +17,7 @@ import { GetTaskFromId } from "../../../services/task/GetTaskFromId"
 import { routesPath } from "../../../constants/routes"
 import { WrapperTask } from "../Tasks/Tasks"
 
-import { TToastContext } from "../../../context/ToastContext"
+import { TToastContext, useToast } from "../../../context/ToastContext"
 type TaskEditProps = {}
 type TaskEditRef = {
   title: string
@@ -84,6 +84,4 @@ const TaskEdit = (props: TaskEditProps) => {
 }
 
 export default TaskEdit
-function useToast(): TToastContext {
-  throw new Error("Function not implemented.")
-}
+
