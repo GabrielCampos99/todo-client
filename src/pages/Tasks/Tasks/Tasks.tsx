@@ -26,6 +26,7 @@ import { ITaskForm } from "../../../interfaces/Tasks/ITaskForm"
 import { useAxios } from "../../../hooks/Axios/useAxios"
 
 import { routesPath } from "../../../constants/routes"
+import { ListTasksService } from "../../../services/task/GetTaskService"
 
 type TasksProps = {}
 
@@ -37,6 +38,8 @@ export const Tasks = (props: TasksProps) => {
   const toast = useToast() as TToastContext
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [taskResponse, setTaskResponse] = useState<ITaskResponse>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [sidebar, setSidebar] = useState<boolean>(false)
   const [search, setSearch] = useState<string>("")
@@ -44,14 +47,12 @@ export const Tasks = (props: TasksProps) => {
   const taskFormRef = useRef<ITaskForm>({})
 
   const listTasks = useCallback(
-    async (currentPage) => {
-      await fetchData({
-        method: "GET",
-        url: `/tasks?page=${currentPage}`,
-        headers: {
-          accept: "*/*",
-        },
-      })
+    async (currentPage: number) => {
+      setIsLoading(true)
+      const res = await ListTasksService({ page: currentPage })
+      setIsLoading(false)
+      if (!res) return toast.contextValue.open(`Erro ao listar Tasks`)
+      setTaskResponse(res.data)
     },
     [currentPage]
   )
@@ -165,16 +166,16 @@ export const Tasks = (props: TasksProps) => {
   }
   return (
     <WrapperTask>
-      {(loading || createLoading || deleteLoading) && <Spinner />}
+      {(loading || createLoading || deleteLoading || isLoading) && <Spinner />}
       <HeaderLogged leftItem={<FiMenu onClick={() => setSidebar(!sidebar)} style={{ cursor: "pointer" }} color="#cecece" />} middleItem={<H1 style={{ fontSize: "2rem", color: "#cecece", fontWeight: "normal" }}>Tarefas</H1>} rightItem={<Avatar />} />
       <Navbar sidebar={sidebar} setSidebar={setSidebar} />
       <Input icon={<FiSearch color="#cecece" onClick={handleSearchEnter} style={{ cursor: "pointer" }} />} stylesWrapper={{ margin: "2rem 0 " }} onChange={(event) => setSearch(event.target.value)} />
       <TasksCardContainer>
-        {response?.data.map((task) => (
+        {taskResponse?.data.map((task) => (
           <CardTask task={task} key={`${task.updated_at}`} deleteTask={handleDeleteTask} editTask={handleEditTask} completeTask={handleCompleteTask} />
         ))}
       </TasksCardContainer>
-      {response?.lastPage && <Pagination setCurrentPage={setCurrentPage} pages={response.lastPage} style={{ marginTop: "2rem" }} />}
+      {taskResponse?.lastPage && <Pagination setCurrentPage={setCurrentPage} pages={taskResponse.lastPage} style={{ marginTop: "2rem" }} />}
 
       <ButtonAdd onClick={() => setIsModalOpen(true)} style={{ marginTop: "2rem" }} />
       {isModalOpen && (
