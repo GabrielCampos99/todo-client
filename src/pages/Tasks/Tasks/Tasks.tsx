@@ -17,7 +17,6 @@ import { Input } from "../../../components/Input/Input"
 import { Modal } from "../../../components/Modal/Modal"
 import { P } from "../../../components/Typography/P/P"
 
-import { useToast, TToastContext } from "../../../context/ToastContext"
 
 import { ITask, ITaskResponse } from "../../../interfaces/Tasks/ITask"
 import { ITaskForm } from "../../../interfaces/Tasks/ITaskForm"
@@ -27,6 +26,7 @@ import { ListTasksService } from "../../../services/task/ListTasksService"
 import { DeleteTaskService } from "../../../services/task/DeleteTaskService"
 import { ToggleCompleteTaskService } from "../../../services/task/ToggleCompleteTaskService"
 import { CreateTaskService } from "../../../services/task/CreateTaskService"
+import { useToast, TToastContext } from "../../../context/ToastContext"
 
 type TasksProps = {}
 

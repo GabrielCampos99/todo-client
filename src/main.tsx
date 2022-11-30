@@ -6,11 +6,11 @@ import { routesPath } from "./constants/routes"
 import { SignIn } from "./pages/SignIn/SignIn"
 import { SignUp } from "./pages/SignUp/SignUp"
 import { Onbording } from "./pages/Onbording/Onbording"
-import AuthProvider from "./context/AuthContext"
 import { Tasks } from "./pages/Tasks/Tasks/Tasks"
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute"
-import { ToastProvider } from "./context/ToastContext"
 import TaskEdit from "./pages/Tasks/TaskEdit/TaskEdit"
+import AuthProvider from "./context/AuthContext"
+import { ToastProvider } from "./context/ToastContext"
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <GlobalStyles />

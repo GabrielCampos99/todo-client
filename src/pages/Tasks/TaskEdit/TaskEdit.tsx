@@ -16,8 +16,8 @@ import { EditTaskService } from "../../../services/task/EditTaskService"
 import { GetTaskFromId } from "../../../services/task/GetTaskFromId"
 import { routesPath } from "../../../constants/routes"
 import { WrapperTask } from "../Tasks/Tasks"
+import { useToast, TToastContext } from "../../../context/ToastContext"
 
-import { TToastContext, useToast } from "../../../context/ToastContext"
 type TaskEditProps = {}
 type TaskEditRef = {
   title: string
