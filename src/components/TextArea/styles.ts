@@ -18,7 +18,6 @@ export const TextArea = styled.div<Pick<TextAreaProps, "error">>`
       width: 100%;
       height: 100%;
       font-size: 1.6rem;
-      -webkit-appearance: none;
       box-shadow: none !important;
       width: 100%;
       outline: none;

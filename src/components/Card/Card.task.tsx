@@ -36,13 +36,13 @@ export const CardTask = ({ task, deleteTask, editTask, completeTask }: CardTaskP
 
       <TaskOptions>
         {editTask && (
-          <div onClick={() => handleEditTask(task)}>
+          <div onClick={() => handleEditTask(task)} className='icon'>
             <FiEdit color="rgb(206, 206, 206)" />
           </div>
         )}
 
         {deleteTask && (
-          <div onClick={() => handleDeleteTask(task)}>
+          <div onClick={() => handleDeleteTask(task)} className='icon'>
             <FiTrash2 color="rgb(206, 206, 206)" />
           </div>
         )}
@@ -77,6 +77,11 @@ export const TaskOptions = styled.div`
   width: 40%;
   justify-content: flex-end;
   gap: 1rem;
+
+  .icon:hover{
+    scale: 1.15;
+    transition: .25s  ease;
+  }
 
   > div {
     cursor: pointer;

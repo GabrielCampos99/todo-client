@@ -26,6 +26,11 @@ export const Button = styled.button<ButtonTypes>`
     height: 6.4rem;
     bottom: 4.4rem;
 
+    &:hover {
+      scale: 1.1;
+      transition: 0.25s ease;
+    }
+
     svg {
       height: 2.4rem;
       width: 2.4rem;
