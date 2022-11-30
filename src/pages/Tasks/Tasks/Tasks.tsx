@@ -1,26 +1,31 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import { FiMenu, FiSearch } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { CardTask } from "../../../components/Card/Card.task"
-import { FiMenu, FiSearch } from "react-icons/fi"
+
 import { HeaderLogged } from "../../../components/Header/Header.logged"
-import { useAxios } from "../../../hooks/Axios/useAxios"
-import { ITask, ITaskResponse } from "../../../interfaces/Tasks/ITask"
-import { H1 } from "../../../components/Typography/H1/H1"
-import { Avatar } from "../../../components/Avatar/Avatar"
-import { Input } from "../../../components/Input/Input"
-import { Navbar } from "../../../components/Navbar/Navbar"
-import { ErrorResponse } from "../../../Context/AuthContext"
+import Pagination from "../../../components/Pagination/Pagination"
+import { TextArea } from "../../../components/TextArea/TextArea"
 import ButtonAdd from "../../../components/ButtonAdd/ButtonAdd"
+import { CardTask } from "../../../components/Card/Card.task"
+import { Spinner } from "../../../components/Spinner/Spinner"
+import { Navbar } from "../../../components/Navbar/Navbar"
+import { Avatar } from "../../../components/Avatar/Avatar"
+import { Button } from "../../../components/Button/Button"
+import { H1 } from "../../../components/Typography/H1/H1"
+import { Input } from "../../../components/Input/Input"
 import { Modal } from "../../../components/Modal/Modal"
 import { P } from "../../../components/Typography/P/P"
-import { TextArea } from "../../../components/TextArea/TextArea"
-import { ITaskForm } from "../../../interfaces/Tasks/ITaskForm"
-import { Button } from "../../../components/Button/Button"
+
 import { useToast, TToastContext } from "../../../Context/ToastContext"
-import { Spinner } from "../../../components/Spinner/Spinner"
+import { ErrorResponse } from "../../../Context/AuthContext"
+
+import { ITask, ITaskResponse } from "../../../interfaces/Tasks/ITask"
+import { ITaskForm } from "../../../interfaces/Tasks/ITaskForm"
+
+import { useAxios } from "../../../hooks/Axios/useAxios"
+
 import { routesPath } from "../../../constants/routes"
-import Pagination from "../../../components/Pagination/Pagination"
 
 type TasksProps = {}
 
