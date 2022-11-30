@@ -4,7 +4,7 @@ import { FiX } from "react-icons/fi"
 import { SidebarData } from "../../constants/SidebarData"
 import { FiLogOut } from "react-icons/fi"
 import React from "react"
-import { TAuthContext, AuthContext } from "../../Context/AuthContext"
+import { TAuthContext, AuthContext } from "../../context/AuthContext"
 
 type NavbarProps = {
   sidebar?: boolean

@@ -12,13 +12,12 @@ import { Input } from "../../../components/Input/Input"
 import { H1 } from "../../../components/Typography/H1/H1"
 import { P } from "../../../components/Typography/P/P"
 
-import { useToast, TToastContext } from "../../../Context/ToastContext"
-
 import { EditTaskService } from "../../../services/task/EditTaskService"
 import { GetTaskFromId } from "../../../services/task/GetTaskFromId"
 import { routesPath } from "../../../constants/routes"
 import { WrapperTask } from "../Tasks/Tasks"
 
+import { TToastContext } from "../../../Context/ToastContext"
 type TaskEditProps = {}
 type TaskEditRef = {
   title: string
@@ -85,3 +84,6 @@ const TaskEdit = (props: TaskEditProps) => {
 }
 
 export default TaskEdit
+function useToast(): TToastContext {
+  throw new Error("Function not implemented.")
+}
