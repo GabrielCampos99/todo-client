@@ -1,4 +1,4 @@
-# Welcome to TODO Cliente!
+# Welcome to TODO Client!
 
 Hi, I'm making this app to train my skills with code. Try to code a entire app with simple and maintainable code.
 Technologies that i'm using:
