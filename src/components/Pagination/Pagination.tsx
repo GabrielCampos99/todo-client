@@ -65,6 +65,7 @@ function Pagination({ pages = 10, setCurrentPage, ...rest }: PaginationProps) {
 
 export default Pagination
 export const PaginationWrapper = styled.div`
+  cursor: pointer;
   .pagination-wrapper {
     display: flex;
     gap: 1rem;
