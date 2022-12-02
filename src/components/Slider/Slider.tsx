@@ -27,7 +27,6 @@ export const SliderSlick = ({ children, settings, index }: SliderProps) => {
   }
 
   const signUp = () => {
-    console.log('cliquei aqui')
     navigate(`${routesPath.singIn}`)
   }
 

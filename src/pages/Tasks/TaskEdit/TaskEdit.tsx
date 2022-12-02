@@ -57,7 +57,6 @@ const TaskEdit = (props: TaskEditProps) => {
   const handleForm = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, name: "title" | "description") => {
     const value = event.target.value
     taskEditRef.current[name] = value
-    console.log(taskEditRef.current, "task.current")
   }
 
   useEffect(() => {

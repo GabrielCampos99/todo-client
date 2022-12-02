@@ -107,8 +107,6 @@ export const Tasks = (props: TasksProps) => {
   }
 
   const handleEditTask = (task: ITask) => {
-    console.log("clicado")
-    console.log(`${routesPath.taskEdit}/${task.id}`)
     return navigate(`${routesPath.taskEdit}/${task.id}`)
   }
 

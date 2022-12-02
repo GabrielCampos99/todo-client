@@ -43,7 +43,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   const toast = useToast() as TToastContext
 
   const handleLogin = async (body: any) => {
-    console.log(body, "body")
     setIsLoading(true)
     const res = await CreateSessionService(body)
     setIsLoading(false)

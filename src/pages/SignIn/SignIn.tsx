@@ -24,17 +24,13 @@ export const SignIn = (props: Props) => {
   const handleForm = (event: React.ChangeEvent<HTMLInputElement>, name: "email" | "password") => {
     const value = event.target.value
     loginRef.current[name] = value
-    console.log(loginRef.current, "loginRef.current")
   }
 
   const handleCanSubmit = (loginData: React.MutableRefObject<LoginRef>) => {
     const emailTest = /\S+@\S+\.\S+/.test(loginData.current.email)
     const passLenght = loginData.current.password.length >= 4
     const errors: string[] = []
-    console.log(passLenght, "passLenght")
-    console.log(emailTest, "emailTest")
-
-    if (!passLenght) {
+      if (!passLenght) {
       setError((oldState) => [...oldState, "password"])
       errors.push("password")
     }
@@ -43,7 +39,6 @@ export const SignIn = (props: Props) => {
       errors.push("email")
     }
 
-    console.log(errors, "errrerere")
 
     if (errors.length > 0) return
 
