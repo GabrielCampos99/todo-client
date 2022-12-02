@@ -38,6 +38,7 @@ export const SignUp = (props: Props) => {
     const res = await CreateUserService(body)
     setIsLoading(false)
     if (!res) return toast.contextValue.open(`Erro ao criar Usuario`)
+    toast.contextValue.open(`Usuario criado com sucesso`)
     navigate(`${routesPath.singIn}`)
 
   }
