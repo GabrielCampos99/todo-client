@@ -1,15 +1,17 @@
-import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useRef, useState } from "react"
 import styled from "styled-components"
-import { Button } from "../../components/Button/Button"
-import { Header } from "../../components/Header/Header.form"
-import { Input } from "../../components/Input/Input"
-import { Spinner } from "../../components/Spinner/Spinner"
-import { H1 } from "../../components/Typography/H1/H1"
-import { routesPath } from "../../constants/routes"
-import { TToastContext, useToast } from "../../Context/ToastContext"
-import { useAxios } from "../../hooks/Axios/useAxios"
+
 import { CreateUserService } from "../../services/signUp/CreateUserService"
+
+import { TToastContext, useToast } from "../../Context/ToastContext"
+
+import { Header } from "../../components/Header/Header.form"
+import { Spinner } from "../../components/Spinner/Spinner"
+import { Button } from "../../components/Button/Button"
+import { H1 } from "../../components/Typography/H1/H1"
+import { Input } from "../../components/Input/Input"
+import { routesPath } from "../../constants/routes"
 
 type Props = {}
 
