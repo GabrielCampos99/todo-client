@@ -23,7 +23,8 @@ Nice, if everything looks good, run "yarn dev" to run the app<br/>
 2°: yarn dev <br/>
 
 **IMPORTANT: THIS CLIENT NEED A BACKEND SERVICE**
-This is the backend: https://github.com/GabrielCampos99/todo-server
+This is the backend: 
+https://github.com/GabrielCampos99/todo-server
 
 
 
