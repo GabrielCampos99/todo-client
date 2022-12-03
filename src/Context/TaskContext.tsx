@@ -1,28 +1,31 @@
-import axios from "axios"
 import * as React from "react"
-import jwt_decode from "jwt-decode"
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { routesPath } from "../constants/routes"
-import { TToastContext, useToast } from "./ToastContext"
-import { CreateSessionService } from "../services/signIn/CreateSessionService"
+import { useContext, useState } from "react"
 
 type TaskProps = {
   children?: React.ReactNode
 }
 
-
-
-export type TTaskContext = {}
-
+export type TTaskContext = {
+  setState: React.Dispatch<React.SetStateAction<boolean>>
+  state: boolean
+}
 
 export const TaskContext = React.createContext<TTaskContext | null>(null)
 
 const TaskProvider: React.FC<TaskProps> = ({ children }) => {
+  const [state, setState] = useState<boolean>(false)
 
-
-  return <TaskContext.Provider value={{}}>{children}</TaskContext.Provider>
+  return <TaskContext.Provider value={{ setState, state }}>{children}</TaskContext.Provider>
 }
 
-export const useTask = () => React.useContext(TaskContext)
-export default TaskProvider
+const useTask = () => {
+  const context = useContext(TaskContext);
+
+  if (!context) {
+    throw new Error('useTask must be used within a ActivityLibraryProvider');
+  }
+
+  return context;
+}
+
+export { TaskProvider, useTask }

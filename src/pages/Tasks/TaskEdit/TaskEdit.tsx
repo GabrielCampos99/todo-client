@@ -26,13 +26,11 @@ type TaskEditRef = {
 
 const TaskEdit = (props: TaskEditProps) => {
   const taskEditRef = useRef<TaskEditRef>({ title: "", description: "" })
-
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [taskResponse, setTaskResponse] = useState<any>()
   const [sidebar, setSidebar] = useState<boolean>(false)
   const { taskId } = useParams<{ taskId: string }>()
   const toast = useToast() as TToastContext
-
   const navigate = useNavigate()
 
   const getTaskById = async () => {
