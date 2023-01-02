@@ -20,12 +20,12 @@ import { useToast, TToastContext } from "../../../Context/ToastContext"
 
 type TaskEditProps = {}
 type TaskEditRef = {
-  title: string
+  title?: string
   description?: string
 }
 
 const TaskEdit = (props: TaskEditProps) => {
-  const taskEditRef = useRef<TaskEditRef>({ title: "", description: "" })
+  const taskEditRef = useRef<TaskEditRef>({})
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [taskResponse, setTaskResponse] = useState<any>()
   const [sidebar, setSidebar] = useState<boolean>(false)
@@ -52,7 +52,7 @@ const TaskEdit = (props: TaskEditProps) => {
     navigate(routesPath.tasks)
   }
 
-  const handleForm = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, name: "title" | "description") => {
+  const handleForm = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, name: string) => {
     const value = event.target.value
     taskEditRef.current[name] = value
   }

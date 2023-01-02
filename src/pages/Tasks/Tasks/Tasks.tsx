@@ -28,9 +28,7 @@ import { ToggleCompleteTaskService } from "../../../services/task/ToggleComplete
 import { CreateTaskService } from "../../../services/task/CreateTaskService"
 import { useToast, TToastContext } from "../../../Context/ToastContext"
 
-type TasksProps = {}
-
-export const Tasks = (props: TasksProps) => {
+export const Tasks = () => {
   const toast = useToast() as TToastContext
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
