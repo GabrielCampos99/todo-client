@@ -11,22 +11,23 @@ import { Header } from "../../components/Header/Header.form"
 import { AuthContext, TAuthContext } from "../../Context/AuthContext"
 
 type LoginRef = {
-  email: string
-  password: string
+  email?: string
+  password?: string
 }
 type Props = {}
 
 export const SignIn = (props: Props) => {
-  const loginRef = useRef<LoginRef>({ email: "", password: "" })
+  const loginRef = useRef<LoginRef>({})
   const [error, setError] = useState<string[]>([])
   const { handleLogin, isLoading } = React.useContext(AuthContext) as TAuthContext
 
-  const handleForm = (event: React.ChangeEvent<HTMLInputElement>, name: "email" | "password") => {
+  const handleForm = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
     const value = event.target.value
     loginRef.current[name] = value
   }
 
   const handleCanSubmit = (loginData: React.MutableRefObject<LoginRef>) => {
+    if(!loginData.current.email || !loginData.current.password) return
     const emailTest = /\S+@\S+\.\S+/.test(loginData.current.email)
     const passLenght = loginData.current.password.length >= 4
     const errors: string[] = []

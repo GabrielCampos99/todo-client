@@ -16,19 +16,19 @@ import { routesPath } from "../../constants/routes"
 type Props = {}
 
 type SignUpRef = {
-  email: string
-  password: string
-  name: string
+  email?: string
+  password?: string
+  name?: string
 }
 
 export const SignUp = (props: Props) => {
-  const singUpRef = useRef<SignUpRef>({ email: "", password: "", name: "" })
+  const singUpRef = useRef<SignUpRef>({})
   const toast = useToast() as TToastContext
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
 
-  const handleForm = (event: React.ChangeEvent<HTMLInputElement>, name: "email" | "password" | "name") => {
+  const handleForm = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
     const value = event.target.value
     singUpRef.current[name] = value
   }
