@@ -10,7 +10,7 @@ export interface ITask {
 
 export interface ITaskResponse {
   statusCode: string
-  data: ITask[]
+  items: ITask[]
   count: number
   currentPage: number
   nextPage?: any

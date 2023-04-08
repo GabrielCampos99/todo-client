@@ -39,7 +39,7 @@ const TaskEdit = (props: TaskEditProps) => {
     const res = await GetTaskFromId(+taskId)
     setIsLoading(false)
     if (!res) return toast.contextValue.open(`Erro ao recuperar Task`)
-    setTaskResponse(res.data)
+    setTaskResponse(res.data.data)
   }
 
   const handleEditTask = async () => {

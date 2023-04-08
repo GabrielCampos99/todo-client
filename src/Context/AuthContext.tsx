@@ -47,7 +47,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     const res = await CreateSessionService(body)
     setIsLoading(false)
     if (!res) return toast.contextValue.open(`Erro ao criar sessão`)
-    setUserSession(res.data)
+    setUserSession(res.data.data)
   }
 
   const handleLogout = () => {

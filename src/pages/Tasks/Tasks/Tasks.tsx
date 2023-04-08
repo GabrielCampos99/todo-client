@@ -46,7 +46,7 @@ export const Tasks = () => {
       const res = await ListTasksService({ page: currentPage })
       setIsLoading(false)
       if (!res) return toast.contextValue.open(`Erro ao listar Tasks`)
-      setTaskResponse(res.data)
+      setTaskResponse(res.data.data)
     },
     [currentPage]
   )
@@ -57,7 +57,7 @@ export const Tasks = () => {
       const res = await ListTasksService({ page: currentPage, title: search })
       setIsLoading(false)
       if (!res) return toast.contextValue.open(`Erro ao listar Tasks`)
-      setTaskResponse(res.data)
+      setTaskResponse(res.data.data)
     },
     [currentPage, search]
   )
@@ -127,7 +127,7 @@ export const Tasks = () => {
       <Navbar sidebar={sidebar} setSidebar={setSidebar} />
       <Input icon={<FiSearch color="#cecece" onClick={handleSearchEnter} style={{ cursor: "pointer" }} />} stylesWrapper={{ margin: "2rem 0 " }} onChange={(event) => setSearch(event.target.value)} />
       <TasksCardContainer>
-        {taskResponse?.data.map((task) => (
+        {taskResponse?.items?.map((task) => (
           <CardTask task={task} key={`${task.updated_at}`} deleteTask={handleDeleteTask} editTask={handleEditTask} completeTask={handleCompleteTask} />
         ))}
       </TasksCardContainer>
